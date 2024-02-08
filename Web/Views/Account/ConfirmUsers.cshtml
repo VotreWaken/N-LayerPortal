@@ -1,0 +1,79 @@
+﻿@model MusicPortal.Models.AccountModels.ConfirmUsers
+
+@{
+    ViewBag.Title = "Confirm Users";
+}
+
+<section>
+    <h1>Пользователи</h1>
+    <div class="searchSection">
+        <input class="searchInput" type="text" placeholder="Search Here...">
+        <button>
+            <img src="src/img/AcceptUsers/Search.svg" alt="">
+        </button>
+        <button>
+            <img src="src/img/AcceptUsers/Settings.svg" alt="">
+        </button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Avatar
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    IsAuth
+                </th>
+                <th>
+                    IsAdmin
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+            <tr>
+                <td>
+                        @if (Model.ImagePaths.ContainsKey(item.Id))
+                        {
+                            <img draggable="false" src="@Model.ImagePaths[item.Id]" alt="User Avatar">
+                        }
+                        else
+                        {
+                            <img draggable="false" src="~/path/to/default/avatar.jpg" alt="Default Avatar">
+                        }
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.IsAuth)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редактирование</a> |
+                    <a asp-action="Index" asp-route-id="@item.Id">Подробности</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удаление</a> |
+                </td>
+                <td>
+                    <a asp-action="AuthUser" asp-route-id="@item.Id">Авторизировать</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</section>

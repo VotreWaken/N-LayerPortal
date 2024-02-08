@@ -1,0 +1,44 @@
+﻿@model MusicPortal.Models.AccountModels.SignUp
+
+@{
+	ViewBag.Title = "Sign Up";
+}
+
+<form asp-action="SignUp" method="post" enctype="multipart/form-data">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<div class="form-group">
+		<label asp-for="ImageAvatar">Choose Avatar:</label>
+		<input asp-for="ImageAvatar" type="file" class="form-control" />
+		<span asp-validation-for="ImageAvatar" class="text-danger"></span>
+	</div>
+
+	<div class="SignUpItem">
+		<label asp-for="Login" class="control-label">Login</label>
+		<input asp-for="Login" class="form-control" />
+		<span asp-validation-for="Login" class="colorError" class="text-danger"></span>
+	</div>
+
+	<div class="SignUpItem">
+		<label asp-for="Email" class="control-label">Email</label>
+		<input asp-for="Email" class="form-control" />
+		<span asp-validation-for="Email" class="colorError" class="text-danger"></span>
+	</div>
+
+
+
+	<div class="SignUpItem">
+		<label asp-for="Password" class="control-label">Password</label>
+		<input asp-for="Password" class="form-control" />
+		<span asp-validation-for="Password" class="colorError" class="text-danger"></span>
+	</div>
+
+	<div class="SignUpItem">
+		<label asp-for="ConfirmPassword" class="control-label">ConfirmPassword</label>
+		<input asp-for="ConfirmPassword" class="form-control" />
+		<span asp-validation-for="ConfirmPassword	" class="colorError" class="text-danger"></span>
+	</div>
+
+	<button type="submit" id="signInBtnSumbmit">Sign Up</button>
+
+</form>

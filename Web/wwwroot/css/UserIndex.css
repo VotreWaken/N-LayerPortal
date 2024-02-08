@@ -1,0 +1,73 @@
+﻿.AddedPlaylistTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+    .AddedPlaylistTitle button {
+        margin-right: 20px;
+    }
+
+.AddedAudioPlaylistImageItem {
+    border-radius: 180px;
+}
+
+.AddedAudioPlaylistContainer {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.AddedAudioPlaylistItem {
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+    .AddedAudioPlaylistItem:hover {
+        background: gray;
+    }
+
+.ListeningHistoryItemAlbumImage {
+    padding: 5px;
+    width: 60px;
+    height: 60px;
+}
+
+.ListeningHistoryItemPlayIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.ListeningHistoryItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+}
+
+    .ListeningHistoryItem:hover {
+        background: gray;
+    }
+
+.LeftSide {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+}
+
+.ListeningHistoryItemDurationInformation {
+    margin-right: 20px;
+}
+
+.EditBtns {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 60px;
+}

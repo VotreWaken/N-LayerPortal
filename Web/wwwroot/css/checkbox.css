@@ -1,0 +1,31 @@
+﻿.custom-radio {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .custom-radio input {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #333;
+        border-radius: 50%;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+        .custom-radio input:checked {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+
+    .custom-radio .radio-text {
+        cursor: pointer;
+    }
+
+    /* Опциональные стили для изменения внешнего вида при наведении */
+    .custom-radio:hover input {
+        border-color: #555;
+    }

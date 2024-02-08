@@ -1,0 +1,41 @@
+﻿@model MusicPortal.Models.GenreModels.GenreModel
+
+@{
+    ViewData["Title"] = "Genre List";
+}
+
+<h1>Genre List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Genre Name
+            </th>
+            <th>
+                Actions
+            </th>
+            <!-- Добавьте другие заголовки столбцов, если необходимо -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var genre in Model.Genres)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => genre.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@genre.Id">Редактирование</a> |
+                    <a asp-action="Details" asp-route-id="@genre.Id">Подробности</a> |
+                    <a asp-action="Delete" asp-route-id="@genre.Id" onsubmit="return confirm('Вы уверены?');">Удаление</a>
+                </td>
+                <!-- Добавьте другие ячейки данных, если необходимо -->
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <partial name="Create" />
+</div>

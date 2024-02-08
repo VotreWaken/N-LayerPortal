@@ -1,0 +1,393 @@
+/* Reset Default Styles */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Define Default Elements Style */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 400;
+    font-size: 16px;
+    color: white;
+    background-image: linear-gradient( to bottom, rgb(39, 39, 39), rgba(45, 45, 45) );
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 20px;
+}
+
+li {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+}
+
+button {
+    height: 40px;
+    width: 160px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 20px;
+    transition: all 0.4s;
+}
+
+    button:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
+/* */
+
+.leftBar {
+    width: 400px;
+    background: black;
+    height: 100%;
+    border-radius: 20px;
+}
+
+.leftBar-logo {
+    width: 400px;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+ul li a {
+    margin-left: 20px;
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    display: flex;
+}
+
+ul li img {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+ul li:hover {
+    background: gray;
+}
+
+.container {
+    max-width: 1200px;
+    height: 100%;
+}
+
+.LeftBar-Middle-Options {
+    justify-content: left;
+    align-items: flex-start;
+}
+
+/* LeftBar Playlist */
+
+.MiddleOption {
+    display: flex;
+    background: #242424;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+    height: 220px;
+    width: 100%;
+}
+
+/* LeftBar Playlist Already Have Something */
+
+.LeftBar-Middle-Options-Playlist {
+    height: 200px;
+    margin: 30px;
+}
+
+.Settings-playlist {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+    .Settings-playlist button {
+        all: unset;
+    }
+
+.song-elementPlaylist {
+    display: flex;
+    overflow: scroll;
+    overflow-x: hidden;
+    gap: 10px;
+    flex-wrap: wrap;
+    height: 200px;
+    border-radius: 20px;
+}
+
+    /* Стили для псевдоэлементов ::before и ::after, которые будут стилизовать скроллбар */
+    .song-elementPlaylist::-webkit-scrollbar {
+        width: 12px; /* Ширина скроллбара */
+    }
+
+    .song-elementPlaylist::-webkit-scrollbar-thumb {
+        background-color: white; /* Цвет ползунка (скроллбара) */
+        border-radius: 6px; /* Радиус скругления углов ползунка */
+    }
+
+    .song-elementPlaylist::-webkit-scrollbar-track {
+        background-color: transparent; /* Цвет трека (фона скроллбара) */
+        border-radius: 6px; /* Радиус скругления углов трека */
+    }
+
+/* Стили для Internet Explorer */
+.song-elementPlaylist {
+    scrollbar-width: thin; /* Ширина скроллбара (Internet Explorer) */
+}
+
+.song-elementPlaylist {
+    background-color: #888; /* Цвет ползунка (Internet Explorer) */
+}
+
+
+
+.elementPlaylist-item {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+    .elementPlaylist-item:hover {
+        background: rgb(24, 24, 24);
+        cursor: pointer;
+    }
+
+    .elementPlaylist-item img {
+        width: 80%;
+        height: 80%;
+        margin-top: 10px;
+    }
+
+.song-title {
+    text-align: center;
+    width: 80%;
+}
+
+/* Hero Content User Information */
+
+.UserInformation button {
+    all: unset;
+}
+
+.heroSection-nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+.heroSection-nav {
+    margin: 20px;
+}
+
+.UserInformation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgb(17, 17, 17);
+    border-radius: 20px;
+    width: 20%;
+    padding: 0px 10px;
+}
+
+.UserInformation-Avatar {
+    width: 40px;
+    height: 40px;
+}
+
+    .UserInformation-Avatar img {
+        border-radius: 180px;
+        width: 40px;
+        height: 40px;
+    }
+
+/* Hero Content */
+
+.heroSection {
+    width: 100%;
+}
+
+.songs-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.songs-sectionitem {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+    .song-element {
+        background: #171717;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        width: 230px;
+        height: 300px;
+        gap: 20px;
+    }
+
+.Section-Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .Section-Header button {
+        margin-right: 20px;
+    }
+
+section {
+    margin-left: 40px;
+}
+
+.Section-Header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.song-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+}
+.song-element:hover {
+    cursor: pointer;
+    .song-image
+
+{
+    transition: all 0.4s;
+    transform: scale(1.1);
+}
+
+}
+
+.song-title {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+.song-writer {
+    display: flex;
+    justify-content: center;
+}
+
+.song-writer {
+    font-size: 14px;
+}
+
+/* DownSide */
+
+.playList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 10vh;
+    background: #181818;
+    z-index: 1;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+}
+
+.playList-LeftSide {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#current-song-image {
+    width: 60px;
+    height: 60px;
+}
+
+/* DownSide Playlist Middle */
+.playList-MiddleSide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+}
+
+#seekSlider {
+    width: 600px;
+}
+
+.songEditSide {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.songDuration {
+    display: flex;
+}
+
+
+/* DownSide Playlist Right Side */
+
+.playList-rightSide {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* For Container Wrapper to LeftSide and RightSide */
+
+.ContentPage {
+    display: flex;
+}
+
+.AuthenticationLinks {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+/* Create Song */
+
+#SelectGenresGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#genreSelect {
+    width: 200px;
+}
+
+#genreSelect option {
+    text-align: center;
+}

@@ -1,0 +1,52 @@
+﻿@model List<MusicPortal.Models.HomeModels.HomeAudioGenreModel>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section>
+    <div class="songs-section">
+        @foreach (var genreModel in Model)
+        {
+            <div class="Section-Header">
+                <h1 class="PopularSongs">Recently New For @genreModel.Genre.Name</h1>
+                <button>View All</button>
+            </div>
+
+            <div class="songs-sectionitem">
+                @foreach (var song in genreModel.Songs)
+                {
+                    <div class="song-element" data-audio-src="@song.Path">
+                        <img class="song-image" src="@genreModel.ImagePaths.ElementAtOrDefault(genreModel.Songs.ToList().IndexOf(song))" alt="">
+                        <h1 class="song-title">@song.Title</h1>
+                        @if (song.Author != null)
+                        {
+                            <h2 class="song-writer">@song.Author</h2>
+                        }
+                        else
+                        {
+                            <h2 class="song-writer">Unknown Writer</h2>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+</section>
+
+<script>
+    // Получите все элементы audio
+    var audioPlayers = document.querySelectorAll('.audio-player');
+
+    // Добавьте обработчик события для каждого элемента audio
+    audioPlayers.forEach(function (player) {
+        player.addEventListener('play', function () {
+            // Поставьте на паузу все другие аудиоэлементы
+            audioPlayers.forEach(function (otherPlayer) {
+                if (otherPlayer !== player) {
+                    otherPlayer.pause();
+                }
+            });
+        });
+    });
+</script>

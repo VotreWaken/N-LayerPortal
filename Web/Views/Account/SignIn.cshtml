@@ -1,0 +1,24 @@
+﻿@model MusicPortal.Models.AccountModels.SignIn
+
+@{
+	ViewBag.Title = "Sign In";
+}
+
+
+<form asp-action="SignIn">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<div class="SignUpItem">
+		<label asp-for="Login" class="control-label">Login</label>
+		<input asp-for="Login" class="form-control" />
+		<span asp-validation-for="Login" class="colorError" class="text-danger"></span>
+	</div>
+
+	<div class="SignUpItem">
+		<label asp-for="Password" class="control-label">Password</label>
+		<input asp-for="Password" class="form-control" />
+		<span asp-validation-for="Password" class="colorError" class="text-danger"></span>
+	</div>
+
+	<button type="submit" id="signInBtnSumbmit">Sign In</button>
+
+</form>

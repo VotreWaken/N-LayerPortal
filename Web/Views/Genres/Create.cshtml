@@ -1,0 +1,16 @@
+﻿@model MusicPortal.Models.GenreModels.GenreModel
+
+<div>
+    <h2>Create New Genre</h2>
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="NewGenre.Name" class="control-label">Genre Name</label>
+            <input asp-for="NewGenre.Name" class="form-control" />
+            <span asp-validation-for="NewGenre.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create Genre</button>
+        </div>
+    </form>
+</div>

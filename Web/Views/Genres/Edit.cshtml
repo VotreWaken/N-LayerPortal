@@ -1,0 +1,21 @@
+﻿@model MusicPortal.Models.GenreModels.Genre
+
+@{
+	ViewData["Title"] = "Edit";
+}
+
+<h1>Edit User</h1>
+
+<form asp-action="Edit">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<div class="SignUpItem">
+		<label asp-for="Name" class="control-label">Genre Name</label>
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="colorError" class="text-danger"></span>
+	</div>
+
+	<div class="form-group">
+		<input type="submit" value="Сохранить" class="btn btn-primary" />
+	</div>
+</form>

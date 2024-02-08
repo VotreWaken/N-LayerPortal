@@ -1,0 +1,30 @@
+﻿@model MusicPortal.Models.AccountModels.User
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit User</h1>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<input type="hidden" asp-for="Id" />
+	<input type="hidden" asp-for="ImageId" />
+	<input type="hidden" asp-for="Password" />
+	<input type="hidden" asp-for="Salt" />
+
+	<div class="SignUpItem">
+		<label asp-for="Login" class="control-label">Login</label>
+		<input asp-for="Login" class="form-control" />
+		<span asp-validation-for="Login" class="colorError" class="text-danger"></span>
+	</div>
+
+	<div class="SignUpItem">
+		<label asp-for="Email" class="control-label">Email</label>
+		<input asp-for="Email" class="form-control" />
+		<span asp-validation-for="Email" class="colorError" class="text-danger"></span>
+	</div>
+    <div class="form-group">
+        <input type="submit" value="Сохранить" class="btn btn-primary" />
+    </div>
+</form>

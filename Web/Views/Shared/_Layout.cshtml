@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MusicPortal</title>
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/modal.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/checkbox.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Input.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ConfirmUsers.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/UserIndex.css" asp-append-version="true" />
+</head>
+<body>
+
+    <!-- Content -->
+    <div class="ContentPage">
+        <header>
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Left Bar -->
+                <div class="leftBar">
+
+                    <!-- Left Bar Logo -->
+                    <div class="leftBar-logo">
+                        <a href="/"><img src="~/src/img/Logo.svg" alt=""></a>
+                    </div>
+
+                    <!-- Left Bar Top Options -->
+                    <ul>
+                        <li><a href="/"><img src="~/src/img/Home.svg" alt="">Home</a></li>
+                        <li><a href="search.html"><img src="~/src/img/Search.svg" alt="">Search</a></li>
+                        <li><a href="/"><img src="~/src/img/YourLibrary.svg" alt="">Your Library</a></li>
+                        @if (Context.Session.GetString("Login") != null)
+                        {
+                            <li><a href="/Songs/Create"><img src="~/src/img/YourLibrary.svg" alt="">Add Audio</a></li>
+                            <li><a href="/Genres/Index"><img src="~/src/img/YourLibrary.svg" alt="">Add Genre</a></li>
+                        }
+                        else
+                        {
+                            
+                        }
+                    </ul>
+
+                    <!-- Left Bar Middle Options -->
+                    <ul class="LeftBar-Middle-Options">
+                        <li class="MiddleOption">
+                            <h2>Create First Playlist</h2>
+                            <h3>It's not difficult at all, we will help</h3>
+                            <button>Create</button>
+                        </li>
+                    </ul>
+
+
+                    <!-- Left Bar Middle Options Already Have Something in Playlist -->
+                    <div class="LeftBar-Middle-Options-Playlist">
+
+                        <div class="Settings-playlist">
+                            <img src="src/img/Search.svg" alt="">
+                            <button id="openModalBtn2">Недавно Прослушано</button>
+                        </div>
+
+                        <div class="song-elementPlaylist" draggable="false">
+                            <div class="elementPlaylist-item">
+                                <img class="song-image" draggable="false" src="src/img/ContentSide/Album.png" alt="">
+                                <h1 class="song-title">Playlist 1</h1>
+                            </div>
+
+                            <div class="elementPlaylist-item">
+                                <img class="song-image" draggable="false" src="src/img/ContentSide/Album.png" alt="">
+                                <h1 class="song-title">Playlist 2</h1>
+                            </div>
+
+                            <div class="elementPlaylist-item">
+                                <img class="song-image" draggable="false" src="src/img/ContentSide/Album.png" alt="">
+                                <h1 class="song-title">Playlist 3</h1>
+                            </div>
+
+                            <div class="elementPlaylist-item">
+                                <img class="song-image" draggable="false" src="src/img/ContentSide/Album.png" alt="">
+                                <h1 class="song-title">Playlist 4</h1>
+                            </div>
+
+                            <div class="elementPlaylist-item">
+                                <img class="song-image" draggable="false" src="src/img/ContentSide/Album.png" alt="">
+                                <h1 class="song-title">Playlist 5</h1>
+                            </div>
+                        </div>
+
+                        <!-- <li><img src="src/img/LikedSongs.svg" alt=""><a href="/">Liked Songs</a></img></li> -->
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+
+        <div class="heroSection">
+
+            <div class="heroSection-nav">
+                <div class="HistoryButtons">
+                    <a class="PreviousHistory" href="/">
+                        <img src="src/img/HeaderSide/PreviousHistory.svg" alt="">
+                    </a>
+                    <a class="NextHistory" href="/">
+                        <img src="src/img/HeaderSide/NextHistory.svg" alt="">
+                    </a>
+                </div>
+                @if (Context.Session.GetString("Login") != null)
+                {
+                    <div class="UserInformation">
+                        <div class="UserInformation-Avatar">
+                            @if (Context.Session.TryGetValue("UserImage", out var userImageBytes) && userImageBytes.Length > 0)
+                            {
+                                <img draggable="false" src="@Context.Session.GetString("UserImage")" alt="User Avatar">
+                            }
+                            else
+                            {
+                                <img draggable="false" src="@Context.Session.GetString("UserImage")" alt="User Avatar">
+                                <div>@Context.Session.GetString("UserImage")</div>
+                            }
+                        </div>
+                        <p>@Context.Session.GetString("Login")</p>
+                        <button id="openModalBtn1"><img src="src/img/HeaderSide/ProfileMore.svg" alt=""></button>
+                    </div>
+                }
+                else
+                {
+                    <div class="AuthenticationLinks">
+                        <a asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                        <button>
+                            <a asp-controller="Account" asp-action="SignIn">Sign In</a>
+                        </button>
+                    </div>
+                }
+            </div>
+
+            <section>
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </section>
+        </div>
+
+
+
+
+        <!-- Playlist -->
+        <div class="playList">
+
+            <!-- Playlist Left Side -->
+            <div class="playList-LeftSide">
+                <img id="current-song-image" class="playList-LeftSide-Image" alt="Image">
+                <div class="playList-LeftSide-Content">
+                    <div id="current-song-title" class="playList-LeftSide-Title">Dreaming On</div>
+                    <div class="playList-LeftSide-Writers">NEFFEX</div>
+                </div>
+                <img src="src/img/DownSidePlaylist/Favorite.svg" alt="">
+            </div>
+
+            <!-- Аудио Тег -->
+            <audio id="main-audio-player" class="audio-player" controls>
+                <source src="" type="audio/mp3">
+            </audio>
+
+            <!-- Playlist Middle Side -->
+            <div class="playList-MiddleSide">
+                <div class="songEditSide">
+                    <img src="src/img/DownSidePlaylist/RandomSongs.svg" alt="">
+                    <img src="src/img/DownSidePlaylist/PreviousSong.svg" alt="" onclick="previousSong()">
+                    <img src="src/img/DownSidePlaylist/StartPauseSong.svg" alt="" onclick="togglePlayPause()">
+                    <img src="src/img/DownSidePlaylist/NextSong.svg" alt="" onclick="nextSong()">
+                    <img src="src/img/DownSidePlaylist/RepeatSong.svg" alt="">
+                </div>
+
+                <div class="songDuration">
+                    <p id="currentTime">0:00</p>
+                    <input type="range" id="seekSlider" min="0" step="1" value="0" onchange="seekSong()">
+                    <p id="totalTime">0:00</p>
+                </div>
+            </div>
+
+            <div class="playList-rightSide">
+                <img src="src/img/DownSidePlaylist/RightSide/AboutWriter.svg" alt="">
+                <img src="src/img/DownSidePlaylist/RightSide/SoundHandler.svg" alt="">
+                <img src="src/img/DownSidePlaylist/RightSide/SoundHandlerDuration.svg" alt="">
+                <img src="src/img/DownSidePlaylist/RightSide/FullScrean.svg" alt="">
+            </div>
+        </div>
+
+        <!-- Модальное окно 1 -->
+        <div id="myModal1" class="modal">
+            <!-- Контент модального окна -->
+            <div class="modal-content">
+                
+                @if (Context.Session.GetString("IsAdmin") == "False")
+                {
+                    <a asp-controller="Account" asp-action="ConfirmUsers">Admin Panel</a>
+                }
+                <a href="/">Profile</a>
+                <a href="/">Settings</a>
+                <a asp-controller="Home" asp-action="Logout">Logout</a>
+            </div>
+        </div>
+
+        <!-- Модальное окно 2 -->
+        <div id="myModal2" class="myModal2">
+            <!-- Контент модального окна -->
+            <div class="modal-content">
+                <h3>Сортировка</h3>
+                <a href="/">Recently Listen</a>
+                <a href="/">Recently Added</a>
+                <a href="/">By Alphabet</a>
+                <a href="/">By Author</a>
+                <h3>Формат Библиотеки</h3>
+                <ul>
+                    <label class="custom-radio">
+                        <input type="radio" name="option" />
+                        <span class="radio-text">Option 1</span>
+                    </label>
+
+                    <label class="custom-radio">
+                        <input type="radio" name="option" />
+                        <span class="radio-text">Option 2</span>
+                    </label>
+
+                    <label class="custom-radio">
+                        <input type="radio" name="option" />
+                        <span class="radio-text">Option 3</span>
+                    </label>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50" step="1" />
+                </ul>
+            </div>
+        </div>
+
+        <script defer src="~/js/index.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+<script>
+
+    var audioPlayer = document.getElementById('main-audio-player');
+    var seekSlider = document.getElementById('seekSlider');
+    var currentTimeDisplay = document.getElementById('currentTime');
+    var totalTimeDisplay = document.getElementById('totalTime');
+
+    function togglePlayPause() {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+        } else {
+            audioPlayer.pause();
+        }
+    }
+
+    function previousSong() {
+        // Implement logic to play the previous song
+    }
+
+    function nextSong() {
+        // Implement logic to play the next song
+    }
+
+    function seekSong() {
+        var seekTime = audioPlayer.duration * (seekSlider.value / 100);
+        audioPlayer.currentTime = seekTime;
+    }
+
+    audioPlayer.addEventListener('timeupdate', function () {
+        var currentTime = audioPlayer.currentTime;
+        var duration = audioPlayer.duration;
+
+        var minutes = Math.floor(currentTime / 60);
+        var seconds = Math.floor(currentTime % 60);
+        currentTimeDisplay.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+        minutes = Math.floor(duration / 60);
+        seconds = Math.floor(duration % 60);
+        totalTimeDisplay.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+        seekSlider.value = (currentTime / duration) * 100;
+    });
+
+
+    // Получить Аудио при нажатии на элемент 
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Получите основной аудио-плеер
+        var mainAudioPlayer = document.getElementById('main-audio-player');
+
+        mainAudioPlayer.style.display = 'none';
+
+        var currentSongTitle = document.getElementById('current-song-title');
+        var currentSongImage = document.getElementById('current-song-image');
+
+        // Получите все элементы song-element
+        var songElements = document.querySelectorAll('.song-element');
+
+        // Добавьте обработчик события клика к каждому элементу song-element
+        songElements.forEach(function (songElement) {
+            songElement.addEventListener('click', function () {
+                // Получите источник аудио из атрибута data
+                var audioSrc = songElement.getAttribute('data-audio-src');
+                var songTitle = songElement.querySelector('.song-title').textContent;
+                var songImage = songElement.querySelector('.song-image').getAttribute('src');
+
+                // Обновите источник основного аудио-плеера и начните воспроизведение
+                mainAudioPlayer.src = audioSrc;
+                mainAudioPlayer.play();
+
+                currentSongTitle.textContent = songTitle;
+                currentSongImage.setAttribute('src', songImage);
+
+                currentSongTitle.style.display = 'block';
+                currentSongImage.style.display = 'block';
+            });
+        });
+    });
+</script>
