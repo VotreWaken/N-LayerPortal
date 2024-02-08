@@ -1,7 +1,7 @@
 # TODO
 
 ##  CI/CD Pipeline
-- [ ] Swagger Module Testing 
+- [x] Swagger Module Testing 
 - [ ] BDD Module Testing 
 - [ ] BDD Integration Testing 
 
