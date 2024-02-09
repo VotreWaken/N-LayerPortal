@@ -66,7 +66,6 @@ namespace MusicPortal.Controllers
                 await image.CopyToAsync(stream);
             }
 
-            // Создание объекта Image в базе данных и возврат его Id
             var createdImage = await _imageService.Create(new ImageDTO { Path = "/images/" + imageName });
             return createdImage.Id;
         }
@@ -76,10 +75,8 @@ namespace MusicPortal.Controllers
         {
             var imageId = await SaveImage(imageAvatar);
 
-            // Создание DTO для изображения
             var imageDto = new ImageDTO { Id = imageId };
 
-            // Создание DTO для пользователя
             var userDto = new UserDTO
             {
                 Login = login,
@@ -88,12 +85,8 @@ namespace MusicPortal.Controllers
                 ImageId = imageDto.Id,
             };
 
-            // Создание пользователя
             await _accountService.Create(userDto);
         }
-
-
-
 
 
         [HttpGet]
@@ -147,13 +140,9 @@ namespace MusicPortal.Controllers
             HttpContext.Session.SetString("UserId", userDTO.Id.ToString());
             HttpContext.Session.SetString("UserImage", imagePath);
             HttpContext.Session.SetString("IsAdmin", userDTO.IsAdmin.ToString());
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.SetString("IsAuth", userDTO.IsAuth.ToString());
+			return RedirectToAction("Index", "Home");
         }
-
-
-
-
-
 
         public async Task<IActionResult> ConfirmUsers()
         {
@@ -164,6 +153,8 @@ namespace MusicPortal.Controllers
                     Id = userDTO.Id,
                     Login = userDTO.Login,
                     ImageId = userDTO.ImageId,
+                    IsAdmin = userDTO.IsAdmin,
+                    IsAuth = userDTO.IsAuth,
                 }).ToList();
 
             model.ImagePaths = new Dictionary<int, string>();
@@ -182,48 +173,38 @@ namespace MusicPortal.Controllers
 
         public async Task<IActionResult> AuthUser(int id)
         {
-            // Получаем пользователя по id
             var userDTO = await _accountService.GetById(id);
             if (userDTO == null)
             {
                 return NotFound();
             }
 
-            // Устанавливаем свойство IsAuth в true
             userDTO.IsAuth = true;
 
-            // Обновляем пользователя в базе данных
             await _accountService.Update(userDTO);
 
-            // Получаем список всех пользователей
             var usersDTO = await _accountService.GetAll();
 
-            // Преобразование пользователей из DTO в модели представления
-            var users = usersDTO.Select(u => new User { Id = u.Id, Login = u.Login }).ToList();
+            var users = usersDTO.Select(u => new User { Id = u.Id, Login = u.Login, IsAuth = u.IsAuth, IsAdmin = u.IsAdmin, ImageId = u.ImageId }).ToList();
 
-            // Создаем модель для представления
             var model = new ConfirmUsers
             {
                 Users = users,
-                User = new User { Id = userDTO.Id, Login = userDTO.Login }, // Преобразование пользователя из DTO в модель представления
+                User = new User { Id = userDTO.Id, Login = userDTO.Login,ImageId = userDTO.ImageId ,IsAuth = userDTO.IsAuth, IsAdmin = userDTO.IsAdmin }, // Преобразование пользователя из DTO в модель представления
                 Id = id,
                 ImagePaths = new Dictionary<int, string>()
             };
 
-            // Получаем пути к изображениям для всех пользователей
-            foreach (var u in usersDTO)
+            foreach (var user in model.Users)
             {
-                if (u.Image != null && u.Image.Id > 0)
+                if (user.ImageId > 0)
                 {
-                    var imageDTO = await _imageService.GetById(u.Image.Id);
-                    if (imageDTO != null)
-                    {
-                        model.ImagePaths.Add(u.Id, imageDTO.Path);
-                    }
+                    var imageDTO = await _imageService.GetById(user.ImageId);
+                    string imagePath = imageDTO.Path;
+                    model.ImagePaths.Add(user.Id, imagePath);
                 }
             }
 
-            // Возвращаем представление с моделью
             return View("~/Views/Account/ConfirmUsers.cshtml", model);
         }
 
@@ -307,9 +288,8 @@ namespace MusicPortal.Controllers
                         return NotFound();
                     }
 
-                    // Обновляем данные существующего пользователя
                     existingUser.Login = user.Login;
-                    existingUser.Password = user.Password; // Предположим, что здесь нужно обновить пароль, если пользователь его изменил
+                    // existingUser.Password = user.Password;
                     existingUser.IsAdmin = user.IsAdmin;
 
                     await _accountService.Update(existingUser);

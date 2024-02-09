@@ -63,6 +63,8 @@ namespace MusicPortal.DAL.Repositories
             string hashedPassword = await _hashService.ComputeHash(salt, user.Password);
 
             user.Password = hashedPassword;
+            Console.WriteLine(user.Password);
+            Console.WriteLine(salt);
             user.Salt = salt;
         }
 

@@ -67,7 +67,7 @@ namespace MusicPortal.BLL.Services
 
             foreach (var item in await Database.Users.GetAll())
             {
-                users.Add(new UserDTO { Id = item.Id, Login = item.Login, ImageId = item.ImageId });
+                users.Add(new UserDTO { Id = item.Id, Login = item.Login, ImageId = item.ImageId, IsAdmin = item.IsAdmin, IsAuth = item.IsAuth });
             }
 
             return users.ToList();
@@ -79,7 +79,12 @@ namespace MusicPortal.BLL.Services
             UserDTO userDTO = new UserDTO
             {
                 Id = userEntity.Id,
-                Login = userEntity.Login
+                Login = userEntity.Login,
+                Password = userEntity.Password,
+                ImageId = userEntity.ImageId,
+                IsAdmin = userEntity.IsAdmin,
+                IsAuth = userEntity.IsAuth,
+                Salt = userEntity.Salt,
             };
             return userDTO;
         }
@@ -109,12 +114,20 @@ namespace MusicPortal.BLL.Services
 
         public async Task Update(UserDTO userDTO)
         {
-            User user = new User
+            var existingUser = await Database.Users.GetById(userDTO.Id);
+            if (existingUser == null)
             {
-                Id = userDTO.Id,
-                Login = userDTO.Login
-            };
-            await Database.Users.Update(user);
+                throw new InvalidOperationException($"User with ID {userDTO.Id} not found.");
+            }
+
+            existingUser.Login = userDTO.Login;
+            existingUser.Password = userDTO.Password;
+            existingUser.Salt = userDTO.Salt;
+            existingUser.ImageId = userDTO.ImageId;
+            existingUser.IsAdmin = userDTO.IsAdmin;
+            existingUser.IsAuth = userDTO.IsAuth;
+
+            await Database.Users.Update(existingUser);
         }
     }
 }

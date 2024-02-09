@@ -27,11 +27,6 @@ namespace MusicPortal.BLL.Services
                 Title = audio.Title,
                 Author = audio.Author,
                 ImageId = audio.ImageId,
-                //Image = new ImageDTO
-                //{
-                //    Id = audio.Image.Id,
-                //    Path = audio.Image.Path
-                //}
             }).ToList();
         }
         public async Task<AudioDTO> GetById(int id)
@@ -112,11 +107,6 @@ namespace MusicPortal.BLL.Services
                 Title = audio.Title,
                 Author = audio.Author,
                 ImageId = audio.ImageId,
-                //Image = new ImageDTO
-                //{
-                //	Id = audio.Image.Id,
-                //	Path = audio.Image.Path
-                //}
             }).ToList();
         }
     }

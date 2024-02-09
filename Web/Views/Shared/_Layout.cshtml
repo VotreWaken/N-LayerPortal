@@ -33,7 +33,7 @@
                         <li><a href="/"><img src="~/src/img/Home.svg" alt="">Home</a></li>
                         <li><a href="search.html"><img src="~/src/img/Search.svg" alt="">Search</a></li>
                         <li><a href="/"><img src="~/src/img/YourLibrary.svg" alt="">Your Library</a></li>
-                        @if (Context.Session.GetString("Login") != null)
+                        @if (Context.Session.GetString("IsAuth") == "True")
                         {
                             <li><a href="/Songs/Create"><img src="~/src/img/YourLibrary.svg" alt="">Add Audio</a></li>
                             <li><a href="/Genres/Index"><img src="~/src/img/YourLibrary.svg" alt="">Add Genre</a></li>
@@ -155,10 +155,10 @@
             <div class="playList-LeftSide">
                 <img id="current-song-image" class="playList-LeftSide-Image">
                 <div class="playList-LeftSide-Content">
-                    <div id="current-song-title" class="playList-LeftSide-Title">Dreaming On</div>
-                    <div id="playList-LeftSide-Writers">NEFFEX</div>
+                    <div id="current-song-title" class="playList-LeftSide-Title"></div>
+                    <div id="playList-LeftSide-Writers"></div>
                 </div>
-                <img src="src/img/DownSidePlaylist/Favorite.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/Favorite.svg" alt="">
             </div>
 
             <!-- Аудио Тег -->
@@ -169,11 +169,11 @@
             <!-- Playlist Middle Side -->
             <div class="playList-MiddleSide">
                 <div class="songEditSide">
-                    <img src="src/img/DownSidePlaylist/RandomSongs.svg" alt="">
-                    <img src="src/img/DownSidePlaylist/PreviousSong.svg" alt="" onclick="previousSong()">
-                    <img src="src/img/DownSidePlaylist/StartPauseSong.svg" alt="" onclick="togglePlayPause()">
-                    <img src="src/img/DownSidePlaylist/NextSong.svg" alt="" onclick="nextSong()">
-                    <img src="src/img/DownSidePlaylist/RepeatSong.svg" alt="">
+                    <img src="~/src/img/DownSidePlaylist/RandomSongs.svg" alt="">
+                    <img src="~/src/img/DownSidePlaylist/PreviousSong.svg" alt="" onclick="previousSong()">
+                    <img src="~/src/img/DownSidePlaylist/StartPauseSong.svg" alt="" onclick="togglePlayPause()">
+                    <img src="~/src/img/DownSidePlaylist/NextSong.svg" alt="" onclick="nextSong()">
+                    <img src="~/src/img/DownSidePlaylist/RepeatSong.svg" alt="">
                 </div>
 
                 <div class="songDuration">
@@ -184,10 +184,10 @@
             </div>
 
             <div class="playList-rightSide">
-                <img src="src/img/DownSidePlaylist/RightSide/AboutWriter.svg" alt="">
-                <img src="src/img/DownSidePlaylist/RightSide/SoundHandler.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/RightSide/AboutWriter.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/RightSide/SoundHandler.svg" alt="">
                 <input type="range" id="volumeSlider" min="0" max="100" value="50" step="1" onchange="adjustVolume()">
-                <img src="src/img/DownSidePlaylist/RightSide/FullScrean.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/RightSide/FullScrean.svg" alt="">
             </div>
         </div>
 
@@ -196,7 +196,7 @@
             <!-- Контент модального окна -->
             <div class="modal-content">
                 
-                @if (Context.Session.GetString("IsAdmin") == "False")
+                @if (Context.Session.GetString("IsAdmin") == "True")
                 {
                     <a asp-controller="Account" asp-action="ConfirmUsers">Admin Panel</a>
                 }
