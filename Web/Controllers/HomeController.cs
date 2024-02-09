@@ -31,7 +31,7 @@ namespace MusicPortal.Controllers
         }
 
 
-        // Жанры пофиксить 
+
         public async Task<IActionResult> Index()
         {
             var genres = await _genreService.GetAll();

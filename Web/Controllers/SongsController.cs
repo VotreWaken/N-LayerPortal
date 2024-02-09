@@ -93,8 +93,7 @@ namespace MusicPortal.Controllers
 				Path = model.Path
 			};
 
-			// Tyt Fix
-			// Создаем AudioDTO на основе данных из AudioPath
+
 			var audioDto = new AudioDTO
 			{
 				Title = model.Name,
@@ -103,7 +102,7 @@ namespace MusicPortal.Controllers
 				Path = model.Path
 			};
 
-            // Создаем запись аудио
+
             audioDto = await _songService.Create(audioDto);
 
 

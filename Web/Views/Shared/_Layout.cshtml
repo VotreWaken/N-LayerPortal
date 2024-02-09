@@ -208,7 +208,7 @@
 
         <!-- Модальное окно 2 -->
         <div id="myModal2" class="myModal2">
-            <!-- Контент модального окна -->
+
             <div class="modal-content">
                 <h3>Сортировка</h3>
                 <a href="/">Recently Listen</a>
@@ -259,11 +259,11 @@
     }
 
     function previousSong() {
-        // Implement logic to play the previous song
+
     }
 
     function nextSong() {
-        // Implement logic to play the next song
+
     }
 
     function seekSong() {
@@ -292,13 +292,13 @@
     }
 
 
-    // Получить Аудио при нажатии на элемент 
+
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Получите основной аудио-плеер
+
         var mainAudioPlayer = document.getElementById('main-audio-player');
 
-        // Показываем В левом нижнем углу 
+
         var DownLeftSidePlaylist = document.querySelector('.playList-LeftSide');
 
 
@@ -307,22 +307,22 @@
         var currentSongTitle = document.getElementById('current-song-title');
         var currentSongImage = document.getElementById('current-song-image');
         var currentSongAuthor = document.getElementById('playList-LeftSide-Writers')
-        // Получите все элементы song-element
+
         var songElements = document.querySelectorAll('.song-element');
 
-        // Добавьте обработчик события клика к каждому элементу song-element
+
         songElements.forEach(function (songElement) {
             songElement.addEventListener('click', function () {
-                // Получите источник аудио из атрибута data
+
                 var audioSrc = songElement.getAttribute('data-audio-src');
                 var songTitle = songElement.querySelector('.song-title').textContent;
                 var songImage = songElement.querySelector('.song-image').getAttribute('src');
                 var songAuthor = songElement.querySelector('.song-writer').textContent
-                // Обновите источник основного аудио-плеера и начните воспроизведение
+
                 mainAudioPlayer.src = audioSrc;
                 mainAudioPlayer.play();
                 
-                // Показываем в левом нижнем углу песню
+
                 DownLeftSidePlaylist.style.visibility = 'visible';
                 currentSongAuthor.textContent = songAuthor;
 
