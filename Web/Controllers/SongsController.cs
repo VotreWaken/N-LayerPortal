@@ -93,11 +93,14 @@ namespace MusicPortal.Controllers
 				Path = model.Path
 			};
 
+			var user = await _accountService.GetById(model.UserId);
+
+
 
 			var audioDto = new AudioDTO
 			{
 				Title = model.Name,
-				Author = "Egor",
+				Author = user.Login,
 				ImageId = imageId,
 				Path = model.Path
 			};

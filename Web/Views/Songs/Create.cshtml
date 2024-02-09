@@ -8,6 +8,7 @@
 
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="UserId" value="@Context.Session.GetString("UserId")" />
     <img id="previewImage" width="300"/>
     <div class="SignUpItem">
         <label asp-for="Name" class="control-label">Name</label>
