@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicPortal.DAL.Entities;
 namespace MusicPortal.DAL.Repositories
 {
-    public class SongRepository : IRepository<Audio>, IAudioRepository
+    public class SongRepository : IAudioRepository
     {
         // Context 
         private readonly UserContext _context;

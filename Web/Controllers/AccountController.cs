@@ -86,11 +86,13 @@ namespace MusicPortal.Controllers
 
             if (userDTO == null)
             {
-                ModelState.AddModelError("", "Incorrect login or password!");
+                ModelState.AddModelError("", "User not found!");
                 return View(Model);
             }
 
-            if (Model.Password != userDTO.Password)
+            var isPasswordCorrect = await _accountService.ValidateUserPassword(userDTO, Model.Password);
+
+            if (!isPasswordCorrect)
             {
                 ModelState.AddModelError("", "Incorrect login or password!");
                 return View(Model);
@@ -100,7 +102,6 @@ namespace MusicPortal.Controllers
 
             var imageDTO = await _imageService.GetById(userDTO.ImageId);
             string imagePath = imageDTO.Path;
-
 
             HttpContext.Session.SetString("UserImage", imagePath);
             HttpContext.Session.SetString("IsAdmin", userDTO.IsAdmin.ToString());

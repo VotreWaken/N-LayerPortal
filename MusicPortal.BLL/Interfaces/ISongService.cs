@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MusicPortal.BLL.Interfaces
 {
-    public interface ISongService
+    public interface ISongService // : IService<AudioDTO>
     {
         Task<List<AudioDTO>> GetAll();
         Task<AudioDTO> GetById(int id);

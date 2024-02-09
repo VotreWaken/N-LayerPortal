@@ -22,6 +22,7 @@ namespace MusicPortal.Controllers
 		private readonly IAccountService _accountService;
 
 		private readonly IImageService _imageService;
+
 		private readonly IAudioGenreService _audioGenreService;
 
         private readonly IWebHostEnvironment _appEnvironment;

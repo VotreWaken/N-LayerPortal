@@ -2,7 +2,7 @@
 using MusicPortal.DAL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
 using MusicPortal.DAL.Entities;
-using static System.Net.Mime.MediaTypeNames;
+using MusicPortal.DAL.Repositories;
 
 namespace MusicPortal.BLL.Services
 {
@@ -28,6 +28,20 @@ namespace MusicPortal.BLL.Services
 			};
             var createdUser = await Database.Users.Create(user);
             return createdUser.Id;
+        }
+        public async Task<bool> ValidateUserPassword(UserDTO userDTO, string password)
+        {
+            var user = new User()
+            {
+                Id = userDTO.Id,
+                Login = userDTO.Login,
+                Password = userDTO.Password,
+                Salt = userDTO.Salt,
+                ImageId = userDTO.ImageId,
+                IsAdmin = userDTO.IsAdmin,
+                IsAuth = userDTO.IsAuth,
+            };
+            return await Database.Users.ValidatePassword(user, password);
         }
 
         public async Task Delete(int id)

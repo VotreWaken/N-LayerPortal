@@ -1,13 +1,15 @@
-﻿using System;
+﻿using MusicPortal.BLL.Interfaces;
+using MusicPortal.DAL.Entities.Hashing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicPortal.DAL.Entities.Hashing
+namespace MusicPortal.BLL.Services
 {
-    public class Sha256 : IHash
+    public class HashingService : IHashingService
     {
         // Compute Salt Method
         public async Task<string> ComputeSalt()
