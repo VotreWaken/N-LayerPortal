@@ -15,6 +15,5 @@ namespace MusicPortal.DAL.Entities
         public int ImageId { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsAuth { get; set; }
-        // public Image Image { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace MusicPortal.DAL.Entities
         public string Title { get; set; }
         public string Author { get; set; }
         public int ImageId { get; set; }
-        // public Image Image { get; set; }
-        public ICollection<AudioGenre> AudioGenres { get; set; }
+        public ICollection<AudioGenre>? AudioGenres { get; set; }
     }
 }

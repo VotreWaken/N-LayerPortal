@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,7 +33,7 @@
                         <li><a href="/"><img src="~/src/img/Home.svg" alt="">Home</a></li>
                         <li><a href="search.html"><img src="~/src/img/Search.svg" alt="">Search</a></li>
                         <li><a href="/"><img src="~/src/img/YourLibrary.svg" alt="">Your Library</a></li>
-                        @if (Context.Session.GetString("Login") != null)
+                        @if (Context.Session.GetString("IsAuth") == "True")
                         {
                             <li><a href="/Songs/Create"><img src="~/src/img/YourLibrary.svg" alt="">Add Audio</a></li>
                             <li><a href="/Genres/Index"><img src="~/src/img/YourLibrary.svg" alt="">Add Genre</a></li>
@@ -102,10 +103,10 @@
             <div class="heroSection-nav">
                 <div class="HistoryButtons">
                     <a class="PreviousHistory" href="/">
-                        <img src="src/img/HeaderSide/PreviousHistory.svg" alt="">
+                        <img src="~/src/img/HeaderSide/PreviousHistory.svg" alt="">
                     </a>
                     <a class="NextHistory" href="/">
-                        <img src="src/img/HeaderSide/NextHistory.svg" alt="">
+                        <img src="~/src/img/HeaderSide/NextHistory.svg" alt="">
                     </a>
                 </div>
                 @if (Context.Session.GetString("Login") != null)
@@ -123,7 +124,7 @@
                             }
                         </div>
                         <p>@Context.Session.GetString("Login")</p>
-                        <button id="openModalBtn1"><img src="src/img/HeaderSide/ProfileMore.svg" alt=""></button>
+                        <button id="openModalBtn1"><img src="~/src/img/HeaderSide/ProfileMore.svg" alt=""></button>
                     </div>
                 }
                 else
@@ -152,12 +153,12 @@
 
             <!-- Playlist Left Side -->
             <div class="playList-LeftSide">
-                <img id="current-song-image" class="playList-LeftSide-Image" alt="Image">
+                <img id="current-song-image" class="playList-LeftSide-Image">
                 <div class="playList-LeftSide-Content">
-                    <div id="current-song-title" class="playList-LeftSide-Title">Dreaming On</div>
-                    <div class="playList-LeftSide-Writers">NEFFEX</div>
+                    <div id="current-song-title" class="playList-LeftSide-Title"></div>
+                    <div id="playList-LeftSide-Writers"></div>
                 </div>
-                <img src="src/img/DownSidePlaylist/Favorite.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/Favorite.svg" alt="">
             </div>
 
             <!-- Аудио Тег -->
@@ -168,11 +169,11 @@
             <!-- Playlist Middle Side -->
             <div class="playList-MiddleSide">
                 <div class="songEditSide">
-                    <img src="src/img/DownSidePlaylist/RandomSongs.svg" alt="">
-                    <img src="src/img/DownSidePlaylist/PreviousSong.svg" alt="" onclick="previousSong()">
-                    <img src="src/img/DownSidePlaylist/StartPauseSong.svg" alt="" onclick="togglePlayPause()">
-                    <img src="src/img/DownSidePlaylist/NextSong.svg" alt="" onclick="nextSong()">
-                    <img src="src/img/DownSidePlaylist/RepeatSong.svg" alt="">
+                    <img src="~/src/img/DownSidePlaylist/RandomSongs.svg" alt="">
+                    <img src="~/src/img/DownSidePlaylist/PreviousSong.svg" alt="" onclick="previousSong()">
+                    <img src="~/src/img/DownSidePlaylist/StartPauseSong.svg" alt="" onclick="togglePlayPause()">
+                    <img src="~/src/img/DownSidePlaylist/NextSong.svg" alt="" onclick="nextSong()">
+                    <img src="~/src/img/DownSidePlaylist/RepeatSong.svg" alt="">
                 </div>
 
                 <div class="songDuration">
@@ -183,10 +184,10 @@
             </div>
 
             <div class="playList-rightSide">
-                <img src="src/img/DownSidePlaylist/RightSide/AboutWriter.svg" alt="">
-                <img src="src/img/DownSidePlaylist/RightSide/SoundHandler.svg" alt="">
-                <img src="src/img/DownSidePlaylist/RightSide/SoundHandlerDuration.svg" alt="">
-                <img src="src/img/DownSidePlaylist/RightSide/FullScrean.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/RightSide/AboutWriter.svg" alt="">
+                <img src="~/src/img/DownSidePlaylist/RightSide/SoundHandler.svg" alt="">
+                <input type="range" id="volumeSlider" min="0" max="100" value="50" step="1" onchange="adjustVolume()">
+                <img src="~/src/img/DownSidePlaylist/RightSide/FullScrean.svg" alt="">
             </div>
         </div>
 
@@ -195,11 +196,11 @@
             <!-- Контент модального окна -->
             <div class="modal-content">
                 
-                @if (Context.Session.GetString("IsAdmin") == "False")
+                @if (Context.Session.GetString("IsAdmin") == "True")
                 {
                     <a asp-controller="Account" asp-action="ConfirmUsers">Admin Panel</a>
                 }
-                <a href="/">Profile</a>
+                <a class="profile-link" asp-controller="Account" asp-action="Index" asp-route-id="@Context.Session.GetString("UserId")">Profile</a>
                 <a href="/">Settings</a>
                 <a asp-controller="Home" asp-action="Logout">Logout</a>
             </div>
@@ -242,6 +243,8 @@
 </html>
 <script>
 
+    // Audio 
+
     var audioPlayer = document.getElementById('main-audio-player');
     var seekSlider = document.getElementById('seekSlider');
     var currentTimeDisplay = document.getElementById('currentTime');
@@ -283,6 +286,11 @@
         seekSlider.value = (currentTime / duration) * 100;
     });
 
+    function adjustVolume() {
+        var volumeSlider = document.getElementById('volumeSlider');
+        audioPlayer.volume = volumeSlider.value / 100;
+    }
+
 
     // Получить Аудио при нажатии на элемент 
 
@@ -290,11 +298,15 @@
         // Получите основной аудио-плеер
         var mainAudioPlayer = document.getElementById('main-audio-player');
 
+        // Показываем В левом нижнем углу 
+        var DownLeftSidePlaylist = document.querySelector('.playList-LeftSide');
+
+
         mainAudioPlayer.style.display = 'none';
 
         var currentSongTitle = document.getElementById('current-song-title');
         var currentSongImage = document.getElementById('current-song-image');
-
+        var currentSongAuthor = document.getElementById('playList-LeftSide-Writers')
         // Получите все элементы song-element
         var songElements = document.querySelectorAll('.song-element');
 
@@ -305,10 +317,14 @@
                 var audioSrc = songElement.getAttribute('data-audio-src');
                 var songTitle = songElement.querySelector('.song-title').textContent;
                 var songImage = songElement.querySelector('.song-image').getAttribute('src');
-
+                var songAuthor = songElement.querySelector('.song-writer').textContent
                 // Обновите источник основного аудио-плеера и начните воспроизведение
                 mainAudioPlayer.src = audioSrc;
                 mainAudioPlayer.play();
+                
+                // Показываем в левом нижнем углу песню
+                DownLeftSidePlaylist.style.visibility = 'visible';
+                currentSongAuthor.textContent = songAuthor;
 
                 currentSongTitle.textContent = songTitle;
                 currentSongImage.setAttribute('src', songImage);

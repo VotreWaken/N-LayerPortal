@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPortal", "Web\MusicPortal.csproj", "{B49D0549-9432-40EA-A46D-C87B050B2772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "Web\PL.csproj", "{B49D0549-9432-40EA-A46D-C87B050B2772}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPortal.DAL", "MusicPortal.DLL\MusicPortal.DAL.csproj", "{55144FCE-0629-4A36-BEE4-07024E59C297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicPortal.DAL", "MusicPortal.DLL\MusicPortal.DAL.csproj", "{55144FCE-0629-4A36-BEE4-07024E59C297}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPortal.BLL", "MusicPortal.BLL\MusicPortal.BLL.csproj", "{1526C817-50BD-4AC5-B009-3C711E54FF1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicPortal.BLL", "MusicPortal.BLL\MusicPortal.BLL.csproj", "{1526C817-50BD-4AC5-B009-3C711E54FF1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

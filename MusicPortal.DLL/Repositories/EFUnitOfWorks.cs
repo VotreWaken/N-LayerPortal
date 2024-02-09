@@ -6,16 +6,23 @@ namespace MusicPortal.DAL.Repositories
 {
     public class EFUnitOfWorks : IUnitOfWorks
     {
+        // Context
         private UserContext db;
-        private GenreRepository genreRepository;
-        private SongRepository songRepository;
-        private AccountsRepository userRepository;
-        private ImageRepository imageRepository;
-        private AudioGenreRepository audioGenreRepository;
+        
+        // Repositories 
+        private GenreRepository? genreRepository;
+        private SongRepository? songRepository;
+        private AccountsRepository? userRepository;
+        private ImageRepository? imageRepository;
+        private AudioGenreRepository? audioGenreRepository;
+
+        // Constructor
         public EFUnitOfWorks(UserContext db)
         {
             this.db = db;
         }
+
+        // User
         public IAccountRepository Users
         {
             get
@@ -25,6 +32,8 @@ namespace MusicPortal.DAL.Repositories
                 return userRepository;
             }
         }
+
+        // AudioGenre
         public IAudioGenre AudioGenre
         {
             get
@@ -34,6 +43,8 @@ namespace MusicPortal.DAL.Repositories
                 return audioGenreRepository;
             }
         }
+
+        // Genre
         public IRepository<Genre> Genres
         {
             get
@@ -44,6 +55,7 @@ namespace MusicPortal.DAL.Repositories
             }
         }
 
+        // Audio 
         public IAudioRepository Audio
         {
             get
@@ -54,6 +66,7 @@ namespace MusicPortal.DAL.Repositories
             }
         }
 
+        // Image
         public IRepository<Image> Image
         {
             get
@@ -63,6 +76,8 @@ namespace MusicPortal.DAL.Repositories
                 return imageRepository;
             }
         }
+
+        // Save
         public async Task Save()
         {
             await db.SaveChangesAsync();

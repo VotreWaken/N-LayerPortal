@@ -1,20 +1,22 @@
 ﻿using MusicPortal.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicPortal.DAL.Interfaces
 {
     public interface IAudioGenre
     {
+        // Get All Audio with Particular Genre
         Task<List<AudioGenre>> GetAll();
+
+        // Create Audio with Particular Genre
         Task<AudioGenre> Create(AudioGenre audio);
+
+        // Update Audio with Particular Genre
         Task Update(AudioGenre audioGenreDTO);
 
-        // Task<List<Audio>> GetSongsByGenre(string genreName);
+        // Get by Id Audio with Particular Genre
         Task<AudioGenre> GetById(int audioId, int genreId);
+
+        // Delete Audio with Particular Genre
         Task Delete(int audioId, int genreId);
     }
 }

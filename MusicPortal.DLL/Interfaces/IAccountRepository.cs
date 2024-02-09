@@ -2,13 +2,15 @@
 
 namespace MusicPortal.DAL.Interfaces
 {
-    public interface IAccountRepository
+    public interface IAccountRepository : IRepository<User>
     {
-        Task<List<User>> GetAll();
-        Task<User> GetById(int id);
+        // Get User By Login
         Task<User> GetByLogin(string login);
-        Task<User> Create(User user);
-        Task Update(User user);
-        Task Delete(int id);
+
+        // Hash User Password
+        Task HashUserPassword(User user);
+
+        // Validate User Password
+        Task<bool> ValidatePassword(User user, string password);
     }
 }

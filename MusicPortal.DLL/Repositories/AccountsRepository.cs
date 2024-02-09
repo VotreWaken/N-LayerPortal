@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MusicPortal.DAL.Interfaces;
+﻿using MusicPortal.DAL.Interfaces;
 using MusicPortal.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using MusicPortal.DAL.Entities;
+using MusicPortal.DAL.Entities.Hashing;
 
 namespace MusicPortal.DAL.Repositories
 {
-    public class AccountsRepository : IAccountRepository, IRepository<User>
+    public class AccountsRepository : IAccountRepository
     {
-
         // Context 
         private UserContext _context;
 
+        // Hashing Service
+        private readonly IHash _hashService = new Sha256();
+
         // Constructor
-        public AccountsRepository(UserContext context) => _context = context;
+        public AccountsRepository(UserContext context)
+        {
+            _context = context;
+        }
 
         // Get All Users 
         public async Task<List<User>> GetAll()
@@ -42,10 +44,40 @@ namespace MusicPortal.DAL.Repositories
                 throw new ArgumentNullException(nameof(user));
             }
 
+            await HashUserPassword(user);
+
             await _context.User.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
         }
+
+        // Hash Password 
+        public async Task HashUserPassword(User user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Password))
+            {
+                throw new ArgumentNullException(nameof(user.Password));
+            }
+
+            string salt = await _hashService.ComputeSalt();
+            string hashedPassword = await _hashService.ComputeHash(salt, user.Password);
+
+            user.Password = hashedPassword;
+            Console.WriteLine(user.Password);
+            Console.WriteLine(salt);
+            user.Salt = salt;
+        }
+
+        // Compare User Password with Salt 
+        public async Task<bool> ValidatePassword(User user, string password)
+        {
+            string salt = user.Salt;
+
+            string hashedPassword = await _hashService.ComputeHash(salt, password);
+
+            return user.Password == hashedPassword;
+        }
+
         // Update User
         public async Task Update(User user)
         {

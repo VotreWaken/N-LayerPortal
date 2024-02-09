@@ -1,7 +1,6 @@
-﻿using MusicPortal.DAL.Entities;
-
-namespace MusicPortal.DAL.Interfaces
+﻿namespace MusicPortal.DAL.Interfaces
 {
+    // Template Interface
     public interface IRepository<T> where T : class
     {
         Task<List<T>> GetAll();

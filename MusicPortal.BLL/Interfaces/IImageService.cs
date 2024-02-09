@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MusicPortal.BLL.Interfaces
 {
-    public interface IImageService
+    public interface IImageService // : IService<ImageDTO>
     {
         Task<List<ImageDTO>> GetAll();
         Task<ImageDTO> GetById(int id);

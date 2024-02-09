@@ -34,27 +34,7 @@ namespace MusicPortal.DAL.Context
 
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
-            //if (Database.EnsureCreated())
-            //{
-            //    //User user = new User()
-            //    //{
-            //    //    Login = "admin",
-            //    //    Password = "admin",
-            //    //    IsAdmin = true
-            //    //};
-            //    // Sha256 sha256 = new Sha256();
-            //    // sha256.ComputeSalt();
-            //    // user.Password = sha256.ComputeHash(sha256.ComputeSalt(), user.Password);
 
-            //    //Genre newGenre = new Genre
-            //    //{
-            //    //    GenreName = "Pop"
-            //    //};
-
-            //    // Добавляем жанр в DbSet и сохраняем изменения в базе данных
-            //    // _context.Genres.Add(newGenre);
-            //    // await _context.SaveChangesAsync();
-            //}
         }
     }
 }
