@@ -28,16 +28,16 @@ namespace MusicPortal.Controllers
 
 		public async Task<IActionResult> Edit(int id)
 		{
-            // Получаем жанр по его идентификатору
+
             GenreDTO genreDTO = await _genreService.GetById(id);
 
-            // Проверяем, найден ли жанр
+
             if (genreDTO == null)
             {
                 return NotFound();
             }
 
-            // Создаем объект GenreModel и заполняем его данными из объекта GenreDTO
+
             GenreModel genreModel = new GenreModel
             {
                 NewGenre = new Genre
@@ -47,7 +47,6 @@ namespace MusicPortal.Controllers
                 }
             };
 
-            // Возвращаем представление с объектом GenreModel для редактирования
             return View(genreModel);
         }
 
@@ -61,10 +60,10 @@ namespace MusicPortal.Controllers
                 Name = genre.Name
             };
 
-            // Вызываем метод Update сервиса для обновления жанра
+
             await _genreService.Update(genreDTO);
 
-            // Перенаправляем пользователя на страницу с жанрами
+
             return RedirectToAction("Index");
         }
 
@@ -74,7 +73,7 @@ namespace MusicPortal.Controllers
 			return RedirectToAction("Index");
 		}
 
-        // Доделать
+
 		public async Task<IActionResult> Index()
 		{
             var genres = await _genreService.GetAll();

@@ -35,13 +35,13 @@
 </section>
 
 <script>
-    // Получите все элементы audio
+
     var audioPlayers = document.querySelectorAll('.audio-player');
 
-    // Добавьте обработчик события для каждого элемента audio
+
     audioPlayers.forEach(function (player) {
         player.addEventListener('play', function () {
-            // Поставьте на паузу все другие аудиоэлементы
+
             audioPlayers.forEach(function (otherPlayer) {
                 if (otherPlayer !== player) {
                     otherPlayer.pause();
