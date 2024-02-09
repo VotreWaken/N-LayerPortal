@@ -14,7 +14,7 @@ namespace MusicPortal.BLL.Services
         {
             Database = unit;
         }
-        public async Task<int> Create(UserDTO userDTO)
+        public async Task<UserDTO> Create(UserDTO userDTO)
         {
             var user = new User()
             {
@@ -25,9 +25,21 @@ namespace MusicPortal.BLL.Services
 				ImageId = userDTO.ImageId,
 				IsAdmin = userDTO.IsAdmin,
 				IsAuth = userDTO.IsAuth,
-			};
+            };
             var createdUser = await Database.Users.Create(user);
-            return createdUser.Id;
+
+            var createdUserDTO = new UserDTO
+            {
+                Id = createdUser.Id,
+                Login = createdUser.Login,
+                Password = createdUser.Password,
+                Salt = createdUser.Salt,
+                ImageId = createdUser.ImageId,
+                IsAdmin = createdUser.IsAdmin,
+                IsAuth = createdUser.IsAuth,
+            };
+
+            return createdUserDTO;
         }
         public async Task<bool> ValidateUserPassword(UserDTO userDTO, string password)
         {
@@ -55,7 +67,7 @@ namespace MusicPortal.BLL.Services
 
             foreach (var item in await Database.Users.GetAll())
             {
-                users.Add(new UserDTO { Id = item.Id, Login = item.Login });
+                users.Add(new UserDTO { Id = item.Id, Login = item.Login, ImageId = item.ImageId });
             }
 
             return users.ToList();

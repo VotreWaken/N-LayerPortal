@@ -391,3 +391,18 @@ section {
 #genreSelect option {
     text-align: center;
 }
+
+.GenreSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.GenreSection h2{
+    margin-top: 60px;
+}
+
+
+.playList-LeftSide {
+    visibility: hidden;
+}

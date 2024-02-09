@@ -62,9 +62,6 @@
                         @Html.DisplayFor(modelItem => item.IsAdmin)
                 </td>
                 <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактирование</a> |
                     <a asp-action="Index" asp-route-id="@item.Id">Подробности</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Удаление</a> |
