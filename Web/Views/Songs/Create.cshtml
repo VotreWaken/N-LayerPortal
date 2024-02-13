@@ -1,60 +1,60 @@
-﻿@model MusicPortal.Models.SongsModels.AudioCreation
+﻿    @model MusicPortal.Models.SongsModels.AudioCreation
 
-@{
-    ViewData["Title"] = "Add Audio";
-}
+    @{
+        ViewData["Title"] = "Add Audio";
+    }
 
-<h1>Add Audio</h1>
+    <h1>Add Audio</h1>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="UserId" value="@Context.Session.GetString("UserId")" />
-    <img id="previewImage" width="300"/>
-    <div class="SignUpItem">
-        <label asp-for="Name" class="control-label">Name</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="colorError" class="text-danger"></span>
-    </div>
-
-    <div class="SignUpItem">
-        <label asp-for="Path">Audio</label>
-        <input asp-for="Path" id="fileUploadInput" type="file" class="form-control" />
-        <span asp-validation-for="Path" class="colorError text-danger"></span>
-    </div>
-
-    <div class="SignUpItem">
-        <label>Image Path</label>
-        <input type="file" name="ImagePath" id="ImagePath" class="form-control" />
-    </div>
-
-    <div class="genre-buttons">
-        <div class="form-group" id="SelectGenresGroup">
-            <label asp-for="SelectedGenres" class="control-label">Genres</label>
-            <select asp-for="SelectedGenres" asp-items="@(ViewBag.AllGenres)" class="form-control" multiple id="genreSelect" name="SelectedGenres"></select>
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="UserId" value="@Context.Session.GetString("UserId")" />
+        <img id="previewImage" width="300"/>
+        <div class="SignUpItem">
+            <label asp-for="Name" class="control-label">Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="colorError" class="text-danger"></span>
         </div>
-    </div>
 
-    <div class="form-group">
-        <input type="submit" value="Сохранить" class="btn btn-primary" />
-    </div>
-</form>
+        <div class="SignUpItem">
+            <label asp-for="Path">Audio</label>
+            <input asp-for="Path" id="fileUploadInput" type="file" class="form-control" />
+            <span asp-validation-for="Path" class="colorError text-danger"></span>
+        </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var previewImage = document.getElementById('previewImage');
-        var fileUploadInput = document.getElementById('ImagePath');
+        <div class="SignUpItem">
+            <label>Image Path</label>
+            <input type="file" name="ImagePath" id="ImagePath" class="form-control" />
+        </div>
 
-        fileUploadInput.addEventListener('change', function () {
-            var file = fileUploadInput.files[0];
-            var reader = new FileReader();
+        <div class="genre-buttons">
+            <div class="form-group" id="SelectGenresGroup">
+                <label asp-for="SelectedGenres" class="control-label">Genres</label>
+                <select asp-for="SelectedGenres" asp-items="@(ViewBag.AllGenres)" class="form-control" multiple id="genreSelect" name="SelectedGenres"></select>
+            </div>
+        </div>
 
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;
-            };
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+        </div>
+    </form>
 
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var previewImage = document.getElementById('previewImage');
+            var fileUploadInput = document.getElementById('ImagePath');
+
+            fileUploadInput.addEventListener('change', function () {
+                var file = fileUploadInput.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
         });
-    });
-</script>
+    </script>

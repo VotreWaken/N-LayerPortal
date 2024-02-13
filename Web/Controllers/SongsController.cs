@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
@@ -36,7 +37,7 @@ namespace MusicPortal.Controllers
             _appEnvironment = appEnvironment;
 		}
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Create()
 		{
 			var genres = await _genreService.GetAll();
@@ -54,7 +55,7 @@ namespace MusicPortal.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Create(AudioCreation model, IFormFile Path, IFormFile ImagePath)
+        public async Task<IActionResult> Create(AudioCreation model, IFormFile Path, IFormFile ImagePath)
 		{
 			var genres = await _genreService.GetAll();
 			ViewBag.AllGenres = genres
@@ -94,8 +95,6 @@ namespace MusicPortal.Controllers
 			};
 
 			var user = await _accountService.GetById(model.UserId);
-
-
 
 			var audioDto = new AudioDTO
 			{

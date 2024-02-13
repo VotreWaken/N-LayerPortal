@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
@@ -26,6 +28,8 @@ namespace MusicPortal.Controllers
 
         public ActionResult Logout()
         {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
             HttpContext.Session.Clear();
             return RedirectToAction("SignIn", "Account");
         }
