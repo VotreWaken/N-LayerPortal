@@ -45,7 +45,7 @@ namespace MusicPortal.DAL.Repositories
         }
 
         // Genre
-        public IRepository<Genre> Genres
+        public IRepository<Genre> Genre
         {
             get
             {

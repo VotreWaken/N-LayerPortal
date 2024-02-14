@@ -5,7 +5,7 @@ namespace MusicPortal.DAL.Interfaces
     public interface IUnitOfWorks
     {
         public IAccountRepository Users { get; }
-        public IRepository<Genre> Genres { get; }
+        public IRepository<Genre> Genre { get; }
         public IAudioRepository Audio { get; }
         public IRepository<Image> Image { get; }
         public IAudioGenre AudioGenre { get; }

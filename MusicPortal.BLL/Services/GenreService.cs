@@ -16,7 +16,7 @@ namespace MusicPortal.BLL.Services
         }
         public async Task<List<GenreDTO>> GetAll()
         {
-            var genres = await Database.Genres.GetAll();
+            var genres = await Database.Genre.GetAll();
             return genres.Select(genre => new GenreDTO
             {
                 Id = genre.Id,
@@ -25,7 +25,7 @@ namespace MusicPortal.BLL.Services
         }
         public async Task<GenreDTO> GetById(int id)
         {
-            var genreEntity = await Database.Genres.GetById(id);
+            var genreEntity = await Database.Genre.GetById(id);
             if (genreEntity == null)
             {
                 throw new Exception($"Genre with id {id} not found.");
@@ -45,7 +45,7 @@ namespace MusicPortal.BLL.Services
                 Name = genreDto.Name
             };
 
-            genreEntity = await Database.Genres.Create(genreEntity);
+            genreEntity = await Database.Genre.Create(genreEntity);
 
             return new GenreDTO
             {
@@ -56,7 +56,7 @@ namespace MusicPortal.BLL.Services
 
         public async Task Update(GenreDTO genreDto)
         {
-            var genreEntity = await Database.Genres.GetById(genreDto.Id);
+            var genreEntity = await Database.Genre.GetById(genreDto.Id);
             if (genreEntity == null)
             {
                 throw new Exception($"Genre with id {genreDto.Id} not found.");
@@ -64,18 +64,18 @@ namespace MusicPortal.BLL.Services
 
             genreEntity.Name = genreDto.Name;
 
-            await Database.Genres.Update(genreEntity);
+            await Database.Genre.Update(genreEntity);
         }
 
         public async Task Delete(int id)
         {
-            var genreEntity = await Database.Genres.GetById(id);
+            var genreEntity = await Database.Genre.GetById(id);
             if (genreEntity == null)
             {
                 throw new Exception($"Genre with id {id} not found.");
             }
 
-            await Database.Genres.Delete(id);
+            await Database.Genre.Delete(id);
         }
     }
 }

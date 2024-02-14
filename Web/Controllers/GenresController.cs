@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
@@ -7,27 +8,28 @@ using MusicPortal.Models.GenreModels;
 
 namespace MusicPortal.Controllers
 {
-	public class GenresController : Controller
-	{
+    public class GenresController : Controller
+    {
         private readonly IGenreService _genreService;
 
-		public GenresController(IGenreService repository)
-		{
-			this._genreService = repository;
-		}
-		public async Task<IActionResult> Create(GenreModel model)
-		{
+        public GenresController(IGenreService repository)
+        {
+            this._genreService = repository;
+        }
+
+        public async Task<IActionResult> Create(GenreModel model)
+        {
             GenreDTO genreDTO = new GenreDTO
             {
                 Id = model.NewGenre.Id,
                 Name = model.NewGenre.Name
             };
             await _genreService.Create(genreDTO);
-			return RedirectToAction("Index", "Genres");
-		}
+            return RedirectToAction("Index", "Genres");
+        }
 
-		public async Task<IActionResult> Edit(int id)
-		{
+        public async Task<IActionResult> Edit(int id)
+        {
 
             GenreDTO genreDTO = await _genreService.GetById(id);
 
@@ -50,10 +52,10 @@ namespace MusicPortal.Controllers
             return View(genreModel);
         }
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, Genre genre)
-		{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Genre genre)
+        {
             GenreDTO genreDTO = new GenreDTO
             {
                 Id = genre.Id,
@@ -67,33 +69,42 @@ namespace MusicPortal.Controllers
             return RedirectToAction("Index");
         }
 
-		public async Task<IActionResult> Delete(int id)
-		{
-			await _genreService.Delete(id);
-			return RedirectToAction("Index");
-		}
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _genreService.Delete(id);
+            return RedirectToAction("Index");
+        }
 
 
-		public async Task<IActionResult> Index()
-		{
-            var genres = await _genreService.GetAll();
-            var genreDTOs = new List<GenreDTO>();
-
-            foreach (var genre in genres)
+        public async Task<IActionResult> Index()
+        {
+            try
             {
-                var genreDTO = new GenreDTO
+                var genres = await _genreService.GetAll();
+                var genreDTOs = new List<GenreDTO>();
+
+                foreach (var genre in genres)
                 {
-                    Id = genre.Id,
-                    Name = genre.Name
-                };
+                    var genreDTO = new GenreDTO
+                    {
+                        Id = genre.Id,
+                        Name = genre.Name
+                    };
 
-                genreDTOs.Add(genreDTO);
+                    genreDTOs.Add(genreDTO);
+                }
+
+                GenreModel model = new GenreModel();
+                model.Genres = genreDTOs;
+
+                return View(model);
             }
+            catch (Exception ex)
+            {
 
-            GenreModel model = new GenreModel();
-            model.Genres = genreDTOs;
-
-            return View(model);
-		}
-	}
+                throw ex;
+            }
+        }
+    }
 }
+

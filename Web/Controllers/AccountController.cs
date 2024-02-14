@@ -5,6 +5,9 @@ using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
 using MusicPortal.BLL.Services;
 using MusicPortal.DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace MusicPortal.Controllers
 {
@@ -29,7 +32,7 @@ namespace MusicPortal.Controllers
 
         // SignUp
         [HttpPost]
-		[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignUp model, IFormFile imageAvatar)
         {
             if (!ModelState.IsValid)
@@ -137,11 +140,17 @@ namespace MusicPortal.Controllers
             var imageDTO = await _imageService.GetById(userDTO.ImageId);
             string imagePath = imageDTO.Path;
 
+
+            // Авторизация 
+
+            // Конец
+
+
             HttpContext.Session.SetString("UserId", userDTO.Id.ToString());
             HttpContext.Session.SetString("UserImage", imagePath);
             HttpContext.Session.SetString("IsAdmin", userDTO.IsAdmin.ToString());
             HttpContext.Session.SetString("IsAuth", userDTO.IsAuth.ToString());
-			return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> ConfirmUsers()
@@ -190,7 +199,7 @@ namespace MusicPortal.Controllers
             var model = new ConfirmUsers
             {
                 Users = users,
-                User = new User { Id = userDTO.Id, Login = userDTO.Login,ImageId = userDTO.ImageId ,IsAuth = userDTO.IsAuth, IsAdmin = userDTO.IsAdmin }, // Преобразование пользователя из DTO в модель представления
+                User = new User { Id = userDTO.Id, Login = userDTO.Login, ImageId = userDTO.ImageId, IsAuth = userDTO.IsAuth, IsAdmin = userDTO.IsAdmin }, // Преобразование пользователя из DTO в модель представления
                 Id = id,
                 ImagePaths = new Dictionary<int, string>()
             };
@@ -307,9 +316,9 @@ namespace MusicPortal.Controllers
         // GET: AccountController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-			await _accountService.Delete(id);
-			return RedirectToAction("ConfirmUsers");
-		}
+            await _accountService.Delete(id);
+            return RedirectToAction("ConfirmUsers");
+        }
 
-	}
+    }
 }
