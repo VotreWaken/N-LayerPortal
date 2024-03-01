@@ -54,5 +54,14 @@ namespace MusicPortal.DAL.Repositories
                 .Where(a => a.AudioGenres.Any(ag => ag.Genre.Name == genreName))
                 .ToListAsync();
         }
+
+        // Get Songs By User
+
+        public async Task<List<Audio>> GetSongsByUser(string userName)
+        {
+            return await _context.Audio
+                .Where(a => a.Author == userName)
+                .ToListAsync();
+        }
     }
 }

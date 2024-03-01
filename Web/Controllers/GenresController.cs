@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MultilingualSite.Filters;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
 using MusicPortal.Models.AccountModels;
@@ -8,6 +9,7 @@ using MusicPortal.Models.GenreModels;
 
 namespace MusicPortal.Controllers
 {
+    [Culture]
     public class GenresController : Controller
     {
         private readonly IGenreService _genreService;

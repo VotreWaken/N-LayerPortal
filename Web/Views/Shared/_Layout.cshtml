@@ -27,16 +27,15 @@
                     <div class="leftBar-logo">
                         <a href="/"><img src="~/src/img/Logo.svg" alt=""></a>
                     </div>
-
                     <!-- Left Bar Top Options -->
                     <ul>
-                        <li><a href="/"><img src="~/src/img/Home.svg" alt="">Home</a></li>
-                        <li><a href="search.html"><img src="~/src/img/Search.svg" alt="">Search</a></li>
-                        <li><a href="/"><img src="~/src/img/YourLibrary.svg" alt="">Your Library</a></li>
+                        <li><a href="/"><img src="~/src/img/Home.svg" alt="">@PL.Resources.Resource.Home</a></li>
+                        <li><a href="/Songs/Search"><img src="~/src/img/Search.svg" alt="">@PL.Resources.Resource.Search</a></li>
+                        <li><a href="/"><img src="~/src/img/YourLibrary.svg" alt="">@PL.Resources.Resource.YourLibrary</a></li>
                         @if (Context.Session.GetString("IsAuth") == "True")
                         {
-                            <li><a href="/Songs/Create"><img src="~/src/img/YourLibrary.svg" alt="">Add Audio</a></li>
-                            <li><a href="/Genres/Index"><img src="~/src/img/YourLibrary.svg" alt="">Add Genre</a></li>
+                            <li><a href="/Songs/Create"><img src="~/src/img/YourLibrary.svg" alt="">@PL.Resources.Resource.AddAudio</a></li>
+                            <li><a href="/Genres/Index"><img src="~/src/img/YourLibrary.svg" alt="">@PL.Resources.Resource.AddGenre</a></li>
                         }
                         else
                         {
@@ -59,7 +58,7 @@
 
                         <div class="Settings-playlist">
                             <img src="~/src/img/Search.svg" alt="">
-                            <button id="openModalBtn2">Недавно Прослушано</button>
+                            <button id="openModalBtn2">@PL.Resources.Resource.RecentlyListening</button>
                         </div>
 
                         <div class="song-elementPlaylist" draggable="false">
@@ -97,13 +96,23 @@
 
             <div class="heroSection-nav">
                 <div class="HistoryButtons">
-                    <a class="PreviousHistory" href="/">
-                        <img src="~/src/img/HeaderSide/PreviousHistory.svg" alt="">
+                    <a class="PreviousHistory" href="#" onclick="goBack()">
+                        <img src="~/src/img/HeaderSide/PreviousHistory.svg" alt="" id="previousImage">
                     </a>
-                    <a class="NextHistory" href="/">
-                        <img src="~/src/img/HeaderSide/NextHistory.svg" alt="">
+                    <a class="NextHistory" href="#" onclick="goForward()">
+                        <img src="~/src/img/HeaderSide/NextHistory.svg" alt="" id="nextImage">
                     </a>
                 </div>
+                @using (Html.BeginForm("ChangeCulture", "Account"))
+                {
+                    <select name="lang" class="form-control">
+                        <option value="ru">Русский</option>
+                        <option value="en">English</option>
+                        <option value="ua">Українська</option>
+                        <option value="fr">Français</option>
+                    </select>
+                    <input type="submit" name="submit" value="Find" class="btn btn-default">
+                }
                 @if (Context.Session.GetString("Login") != null)
                 {
                     <div class="UserInformation">
@@ -125,9 +134,9 @@
                 else
                 {
                     <div class="AuthenticationLinks">
-                        <a asp-controller="Account" asp-action="SignUp">Sign Up</a>
+                        <a asp-controller="Account" asp-action="SignUp">@PL.Resources.Resource.SignUp</a>
                         <button>
-                            <a asp-controller="Account" asp-action="SignIn">Sign In</a>
+                            <a asp-controller="Account" asp-action="SignIn">@PL.Resources.Resource.SignIn</a>
                         </button>
                     </div>
                 }
@@ -193,11 +202,11 @@
                 
                 @if (Context.Session.GetString("IsAdmin") == "True")
                 {
-                    <a asp-controller="Account" asp-action="ConfirmUsers">Admin Panel</a>
+                    <a asp-controller="Account" asp-action="ConfirmUsers">Resource.Resource.AdminPanel</a>
                 }
-                <a class="profile-link" asp-controller="Account" asp-action="Index" asp-route-id="@Context.Session.GetString("UserId")">Profile</a>
-                <a href="/">Settings</a>
-                <a asp-controller="Home" asp-action="Logout">Logout</a>
+                <a class="profile-link" asp-controller="Account" asp-action="Index" asp-route-id="@Context.Session.GetString("UserId")">Resource.Resource.Profile</a>
+                <a href="/">Resource.Resource.Settings</a>
+                <a asp-controller="Home" asp-action="Logout">Resource.Resource.Logout</a>
             </div>
         </div>
 
@@ -237,6 +246,13 @@
 </body>
 </html>
 <script>
+
+    // AJAX 
+
+
+
+
+
 
     // Audio 
 
@@ -286,7 +302,19 @@
         audioPlayer.volume = volumeSlider.value / 100;
     }
 
+    // Tabs
 
+    function goBack() {
+        history.back();
+        document.getElementById('previousImage').classList.add('active');
+        document.getElementById('nextImage').classList.remove('active');
+    }
+
+    function goForward() {
+        history.forward();
+        document.getElementById('nextImage').classList.add('active');
+        document.getElementById('previousImage').classList.remove('active');
+    }
 
 
     document.addEventListener('DOMContentLoaded', function () {

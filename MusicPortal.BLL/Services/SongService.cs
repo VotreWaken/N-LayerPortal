@@ -109,6 +109,20 @@ namespace MusicPortal.BLL.Services
                 ImageId = audio.ImageId,
             }).ToList();
         }
+
+        public async Task<List<AudioDTO>> GetSongsByUserAsync(string userName)
+        {
+            var audios = await Database.Audio.GetSongsByUser(userName);
+
+            return audios.Select(audio => new AudioDTO
+            {
+                Id = audio.Id,
+                Path = audio.Path,
+                Title = audio.Title,
+                Author = audio.Author,
+                ImageId = audio.ImageId,
+            }).ToList();
+        }
     }
-	
+
 }

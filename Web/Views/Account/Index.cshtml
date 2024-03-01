@@ -1,8 +1,8 @@
-﻿@model MusicPortal.Models.AccountModels.User
+﻿@model MusicPortal.Models.AccountModels.UserIndexViewModel;
 
 <section>
-        <img src="/src/img/ContentSide/Album.png" alt="">
-    <h1>@Html.DisplayFor(model => model.Login)</h1>
+    <img id="UserAvatar" src="@Context.Session.GetString("imagePath")" alt="">
+    <h1>@Html.DisplayFor(model => model.User.Login)</h1>
         <h3>Default User</h3>
         <div class="AddedAudio">
             <div class="AddedPlaylistTitle">
@@ -32,47 +32,29 @@
                 <button>View All</button>
             </div>
 
-            <div class="ListeningHistoryContainer">
+        <div class="ListeningHistoryContainer">
+            @foreach (var item in Model.audio)
+            {
                 <div class="ListeningHistoryItem">
                     <div class="LeftSide">
                         <img class="ListeningHistoryItemPlayIcon" src="/src/img/UserIndex/play.svg" alt="">
-                        <img class="ListeningHistoryItemAlbumImage" src="src/img/ContentSide/Album.png" alt="">
+                        <img class="ListeningHistoryItemAlbumImage" src="@item.Path" alt="">
 
                         <div class="ListeningHistoryItemInformation">
-                            <p>Download My Conscious</p>
-                            <p>Faceless 1-7</p>
+                            <p>@item.Title</p>
+                            <p>@item.Author</p>
                         </div>
                     </div>
-                    <div class="ListeningHistoryItemAlbumInformation">
-                        <p>Cut It Bleed It Breathe It</p>
+ @*                    <div class="ListeningHistoryItemAlbumInformation">
+                        <p>@item.AlbumTitle</p>
                     </div>
-
 
                     <div class="ListeningHistoryItemDurationInformation">
-                        <p>1:32</p>
-                    </div>
+                        <p>@item.Duration</p>
+                    </div> *@
                 </div>
-
-                <div class="ListeningHistoryItem">
-                    <div class="LeftSide">
-                        <img class="ListeningHistoryItemPlayIcon" src="/src/img/UserIndex/play.svg" alt="">
-                        <img class="ListeningHistoryItemAlbumImage" src="src/img/ContentSide/Album.png" alt="">
-
-                        <div class="ListeningHistoryItemInformation">
-                            <p>Download My Conscious</p>
-                            <p>Faceless 1-7</p>
-                        </div>
-                    </div>
-                    <div class="ListeningHistoryItemAlbumInformation">
-                        <p>Cut It Bleed It Breathe It</p>
-                    </div>
-
-
-                    <div class="ListeningHistoryItemDurationInformation">
-                        <p>1:32</p>
-                    </div>
-                </div>
-            </div>
+            }
+        </div>
         </div>
 
         <div class="EditBtns">

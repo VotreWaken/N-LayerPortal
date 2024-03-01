@@ -2,7 +2,7 @@
 
 namespace MusicPortal.Models.SongsModels
 {
-	public class AudioCreation
+	public class CreateAudio
 	{
 		public int Id { get; set; }
 		public string Path { get; set; }

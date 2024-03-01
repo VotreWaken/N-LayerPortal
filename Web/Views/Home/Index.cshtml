@@ -8,8 +8,8 @@
         @foreach (var genreModel in Model)
         {
             <div class="Section-Header">
-                <h1 class="PopularSongs">Recently New For @genreModel.Genre.Name</h1>
-                <button>View All</button>
+                <h1 class="PopularSongs">@PL.Resources.Resource.RecentlyListenFor @genreModel.Genre.Name</h1>
+                <button>@PL.Resources.Resource.ViewAll</button>
             </div>
 
             <div class="songs-sectionitem">

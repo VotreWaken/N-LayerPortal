@@ -16,5 +16,7 @@ namespace MusicPortal.BLL.Interfaces
         Task Delete(int id);
 
         Task<List<AudioDTO>> GetSongsByGenreAsync(string genreName);
+
+        Task<List<AudioDTO>> GetSongsByUserAsync(string userName);
     }
 }
