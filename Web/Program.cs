@@ -20,8 +20,8 @@ var configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 
 
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession();
+//builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddSession();
 
 
 string? connection = configuration.GetConnectionString("DefaultConnection");
@@ -61,6 +61,14 @@ builder.Services.AddMusicPortalContext(connection);
 
 builder.Services.AddUnitOfWorkService();
 builder.Services.AddBLLServices();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10); // Длительность сеанса (тайм-аут завершения сеанса)
+    options.Cookie.Name = "Session"; // Каждая сессия имеет свой идентификатор, который сохраняется в куках.
+
+});
 
 var app = builder.Build();
 

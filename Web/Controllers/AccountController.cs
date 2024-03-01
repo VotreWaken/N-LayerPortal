@@ -8,22 +8,26 @@ using MusicPortal.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using MultilingualSite.Filters;
 
 namespace MusicPortal.Controllers
 {
+    [Culture]
     public class AccountController : Controller
     {
         // Services 
         private readonly IAccountService _accountService;
         private readonly IImageService _imageService;
         private readonly IWebHostEnvironment _appEnvironment;
+        private readonly ISongService _songService;
 
         // Constructor 
-        public AccountController(IAccountService AccountService, IImageService ImageService, IWebHostEnvironment AppEnvironment)
+        public AccountController(IAccountService AccountService, IImageService ImageService, IWebHostEnvironment AppEnvironment, ISongService songService)
         {
             _accountService = AccountService;
             _imageService = ImageService;
             _appEnvironment = AppEnvironment;
+            _songService = songService;
         }
 
         // SignUp
@@ -229,11 +233,21 @@ namespace MusicPortal.Controllers
             {
                 return NotFound();
             }
-            var userDto = new User
+            var userDto = new UserIndexViewModel
             {
-                Login = user.Login,
-                ImageId = user.ImageId
+                User = new UserDTO
+                {
+                    Login = user.Login,
+                    ImageId = user.ImageId
+                }
             };
+
+            // Get User Image
+            var imageDto = await _imageService.GetById(user.ImageId);
+            HttpContext.Session.SetString("imagePath", imageDto.Path);
+
+            // Get User Songs
+            userDto.audio = await _songService.GetSongsByUserAsync(user.Login);
 
             return View(userDto);
         }
@@ -320,5 +334,29 @@ namespace MusicPortal.Controllers
             return RedirectToAction("ConfirmUsers");
         }
 
+        // Change Culture
+
+        public ActionResult ChangeCulture(string lang)
+        {
+            try
+            {
+                string? returnUrl = HttpContext.Session.GetString("path") ?? "/Home";
+                // Список культур
+                List<string> cultures = new List<string>() { "ru", "en", "ua", "fr" };
+                if (!cultures.Contains(lang))
+                {
+                    lang = "en";
+                }
+                Console.WriteLine($"Current Language - {lang}");
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddDays(10); // срок хранения куки - 10 дней
+                Response.Cookies.Append("lang", lang, option); // создание куки
+                return Redirect(returnUrl);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

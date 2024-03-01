@@ -8,17 +8,17 @@
 <form asp-action="SignIn">
 	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 	<div class="SignUpItem">
-		<label asp-for="Login" class="control-label">Login</label>
+		@Html.LabelFor(model => model.Login)
 		<input asp-for="Login" class="form-control" />
 		<span asp-validation-for="Login" class="colorError" class="text-danger"></span>
 	</div>
 
 	<div class="SignUpItem">
-		<label asp-for="Password" class="control-label">Password</label>
+		@Html.LabelFor(model => model.Password)
 		<input asp-for="Password" class="form-control" />
 		<span asp-validation-for="Password" class="colorError" class="text-danger"></span>
 	</div>
 
-	<button type="submit" id="signInBtnSumbmit">Sign In</button>
+	<button type="submit" id="signInBtnSumbmit">@PL.Resources.Resource.SignIn</button>
 
 </form>

@@ -67,25 +67,25 @@ namespace AdminWebAPI.Controllers
 			return SongDto;
 		}
 
-		// Create Song
-		// При таком способе отображает только модель AudioCreation
-		// Принимаемые параметры IFormFile не отображаются на GUI Swagger
-		//[HttpPost]
-		//public async Task Create(AudioCreation model, IFormFile Path, IFormFile ImagePath)
-		//{
-		//	var audioPath = await SaveAudioFile(Path);
+        // Create Song
+        // При таком способе отображает только модель AudioCreation
+        // Принимаемые параметры IFormFile не отображаются на GUI Swagger
+        //[HttpPost]
+        //public async Task Create(AudioCreation model, IFormFile Path, IFormFile ImagePath)
+        //{
+        //	var audioPath = await SaveAudioFile(Path);
 
-		//	var imageId = await SaveImageFile(ImagePath);
+        //	var imageId = await SaveImageFile(ImagePath);
 
-		//	var audioDto = await CreateAudioDto(model, audioPath, imageId);
+        //	var audioDto = await CreateAudioDto(model, audioPath, imageId);
 
-		//	await _songService.Create(audioDto);
+        //	await _songService.Create(audioDto);
 
-		//	await AttachGenresToAudio(model.SelectedGenres, audioDto.Id);
-		//}
+        //	await AttachGenresToAudio(model.SelectedGenres, audioDto.Id);
+        //}
 
-		[HttpPost]
-		public async Task Create(AudioCreate model)
+        [HttpPost("Create")]
+        public async Task Create(AudioCreate model)
 		{
 			// Save Audio File
 			var audioPath = await SaveAudioFile(model.SongPath);
@@ -93,7 +93,7 @@ namespace AdminWebAPI.Controllers
 			// Save Image
 			var imageId = await SaveImageFile(model.ImagePath);
 
-			AudioCreation song = new AudioCreation()
+			CreateAudio song = new CreateAudio()
 			{
 				Id = model.Id,
 				Name = model.Name,
@@ -149,7 +149,7 @@ namespace AdminWebAPI.Controllers
 		}
 
 		// Create DTO Audio
-		private async Task<AudioDTO> CreateAudioDto(AudioCreation model, string audioPath, int imageId)
+		private async Task<AudioDTO> CreateAudioDto(CreateAudio model, string audioPath, int imageId)
 		{
 			var user = await _accountService.GetById(model.UserId);
 
@@ -180,9 +180,9 @@ namespace AdminWebAPI.Controllers
 			}
 		}
 
-		// Edit Song
-		[HttpPut]
-		public async Task<IActionResult> Update(AudioCreate model)
+        // Edit Song
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update(AudioCreate model)
 		{
 			if (model.Id == 0)
 			{
@@ -212,9 +212,9 @@ namespace AdminWebAPI.Controllers
 			return Ok();
 		}
 
-		// Delete Song
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> Delete(int id)
+        // Delete Song
+        [HttpDelete("Delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
 		{
 			if (id == 0)
 			{
