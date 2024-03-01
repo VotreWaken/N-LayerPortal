@@ -53,5 +53,30 @@ namespace MusicPortal.DAL.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
+        // Get Genre By Song
+        public async Task<Dictionary<int, List<Genre>>> GetGenreBySong(IEnumerable<int> audioIds)
+        {
+            var genresByAudios = new Dictionary<int, List<Genre>>();
+
+            foreach (var audioId in audioIds)
+            {
+                var genres = await _context.AudioGenre
+                    .Where(ag => ag.AudioId == audioId)
+                    .Include(ag => ag.Genre)
+                    .Select(ag => new Genre
+                    {
+                        Id = ag.Genre.Id,
+                        Name = ag.Genre.Name
+                        // Другие свойства жанра, если есть
+                    })
+                    .ToListAsync();
+
+                genresByAudios.Add(audioId, genres);
+            }
+
+            return genresByAudios;
+        }
+
     }
 }

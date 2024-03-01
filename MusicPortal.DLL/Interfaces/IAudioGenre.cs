@@ -18,5 +18,8 @@ namespace MusicPortal.DAL.Interfaces
 
         // Delete Audio with Particular Genre
         Task Delete(int audioId, int genreId);
+
+        // Get Genre By Song Id
+        Task<Dictionary<int, List<Genre>>> GetGenreBySong(IEnumerable<int> audioIds);
     }
 }

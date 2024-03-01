@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
 using MusicPortal.DAL.Entities;
@@ -70,6 +71,35 @@ namespace MusicPortal.BLL.Services
         public async Task Delete(int audioId, int genreId)
         {
             await Database.AudioGenre.Delete(audioId, genreId);
+        }
+
+        public async Task<Dictionary<int, List<GenreDTO>>> GetGenreBySongs(IEnumerable<int> audioIds)
+        {
+            var genresByAudios = new Dictionary<int, List<GenreDTO>>();
+
+            var allAudioGenres = await Database.AudioGenre.GetAll();
+
+            foreach (var audioId in audioIds)
+            {
+                var genres = new List<GenreDTO>();
+
+                foreach (var audioGenre in allAudioGenres.Where(ag => ag.AudioId == audioId))
+                {
+                    var genre = await Database.Genre.GetById(audioGenre.GenreId);
+                    if (genre != null)
+                    {
+                        genres.Add(new GenreDTO
+                        {
+                            Id = genre.Id,
+                            Name = genre.Name
+                        });
+                    }
+                }
+
+                genresByAudios.Add(audioId, genres);
+            }
+
+            return genresByAudios;
         }
     }
 }

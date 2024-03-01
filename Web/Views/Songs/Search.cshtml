@@ -1,4 +1,4 @@
-﻿@model List<MusicPortal.Models.HomeModels.HomeAudioGenreModel>
+﻿@model MusicPortal.Models.SearchViewModels.IndexViewModel;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -11,30 +11,67 @@
             <img src="~/src/img/AcceptUsers/Search.svg" alt="">
         </button>
     </div>
-
+    <a asp-action="Search"
+            asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+    >
+        Sort By Name
+    </a>
+    <a asp-action="Search"
+            asp-route-sortOrder="@(Model.SortViewModel.AuthorSort)">
+        Sort By Author
+    </a>
+    <a asp-action="Search"
+            asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">
+        Sort By Genre
+    </a>
     <div class="ContentSection">
 
         <h1>Browse all</h1>
         <div class="Songs-Container">
-        @foreach (var genreModel in Model)
-        {
-            @foreach (var item in genreModel.Songs)
+            @foreach (var item in Model.Audios)
             {
+                var index = 0;
                 <div class="ListeningHistoryItem">
                     <div class="LeftSide">
                         <img class="ListeningHistoryItemPlayIcon" src="/src/img/UserIndex/play.svg" alt="">
-                        <img class="ListeningHistoryItemAlbumImage" src="@item.Path" alt="">
-
-                        <div class="ListeningHistoryItemInformation">
+                        <img class="ListeningHistoryItemAlbumImage" src="@Model.ImagePaths.ElementAtOrDefault(index)" alt="">
+                        <div class="ListeningHistoryItemInformationTitle">
                             <p>@item.Title</p>
+                        </div>
+                        <div class="ListeningHistoryItemInformationAuthor">
                             <p>@item.Author</p>
+                        </div>
+                        <div class="ListeningHistoryItemInformationGenre">
+                            @if (Model.Genres.ContainsKey(item.Id) && Model.Genres[item.Id].Any())
+                            {
+                                <p>Genres: @string.Join(", ", Model.Genres[item.Id].Select(genre => genre.Name))</p>
+                            }
+                            else
+                            {
+                                <p>No genres available</p>
+                            }
                         </div>
                     </div>
                 </div>
+                index++;
             }
-        }
+        
         </div>
 
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Search"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="glyphicon glyphicon-chevron-left">
+                Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Search"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)" class="glyphicon glyphicon-chevron-right">
+                Вперед
+            </a>
+        }
 
     </div>
 </section>
