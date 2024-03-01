@@ -1,12 +1,16 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using MusicPortal.BLL.Interfaces;
 using MusicPortal.BLL.ModelsDTO;
 using MusicPortal.BLL.Services;
 using MusicPortal.Models.GenreModels;
 using MusicPortal.Models.HomeModels;
+using MusicPortal.Models.SearchViewModels;
 using MusicPortal.Models.SongsModels;
+using PL.Models.SearchViewModels;
 
 namespace MusicPortal.Controllers
 {
@@ -42,32 +46,39 @@ namespace MusicPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(int page = 1, SortState sortOrder = SortState.NameAsc)
         {
-            var genres = await _genreService.GetAll();
-            var genreSongs = new List<HomeAudioGenreModel>();
+            List<AudioDTO> audioList = await _audioService.GetAll();
+            var images = new List<ImageDTO>();
 
-            foreach (var genre in genres)
+            foreach (var song in audioList)
             {
-                var songs = await _audioService.GetSongsByGenreAsync(genre.Name);
-                var images = new List<ImageDTO>();
+                var image = await _imageService.GetById(song.ImageId);
+                images.Add(image);
+			}
+			IEnumerable<string> imagePaths = images.Select(image => image.Path);
 
-                foreach (var song in songs)
-                {
-                    var image = await _imageService.GetById(song.ImageId);
-                    images.Add(image);
-                }
+			var audioIds = audioList.Select(audio => audio.Id);
+            var genresByAudios = await _audioGenreService.GetGenreBySongs(audioIds);
 
-                var genreSongModel = new HomeAudioGenreModel
-                {
-                    Genre = genre,
-                    Songs = songs,
-                    ImagePaths = images.Select(img => img.Path).ToList()
-                };
-                genreSongs.Add(genreSongModel);
-            }
+            int pageSize = 5;
 
-            var viewModel = new List<HomeAudioGenreModel>(genreSongs);
+            audioList = sortOrder switch
+            {
+                SortState.NameDesc => audioList.OrderByDescending(s => s.Title).ToList(),
+                SortState.AuthorAsc => audioList.OrderBy(s => s.Author).ToList(),
+                SortState.AuthorDesc => audioList.OrderByDescending(s => s.Author).ToList(),
+                //SortState.GenreAsc => audioList.OrderBy(s => s.Position),
+                //SortState.GenreDesc => audioList.OrderByDescending(s => s.Position),
+                _ => audioList.OrderBy(s => s.Title).ToList(),
+            };
+
+
+            var count = audioList.Count;
+            var items = audioList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel(items, imagePaths, pageViewModel, genresByAudios, new SortViewModel(sortOrder));
             return View(viewModel);
         }
 

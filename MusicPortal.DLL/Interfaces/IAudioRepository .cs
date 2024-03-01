@@ -8,6 +8,5 @@ namespace MusicPortal.DAL.Interfaces
 		Task<List<Audio>> GetSongsByGenre(string genreName);
 
 		Task<List<Audio>> GetSongsByUser(string userName);
-
     }
 }

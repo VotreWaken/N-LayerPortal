@@ -15,5 +15,8 @@ namespace MusicPortal.BLL.Interfaces
         Task<int> Create(AudioGenreDTO audioGenreDTO);
         Task Update(AudioGenreDTO audioGenreDTO);
         Task Delete(int audioId, int genreId);
+
+        // Get Genre By Song Id
+        Task<Dictionary<int, List<GenreDTO>>> GetGenreBySongs(IEnumerable<int> audioIds);
     }
 }
