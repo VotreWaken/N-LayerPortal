@@ -5,25 +5,19 @@
 @{
 }
 <section>
+	<form method="get">
     <div class="searchSection">
-        <input class="searchInput" type="text" placeholder="Artists, songs, or podcasts">
+
+       <input name="position" value="@Model.FilterViewModel.SelectedInput" class="searchInput" type="text" placeholder="Artists, songs, or podcasts">
+
         <button>
             <img src="~/src/img/AcceptUsers/Search.svg" alt="">
         </button>
+            <button type="button" id="openModalBtn3"><img src="~/src/img/SettingsFilter.svg" /></button>
+
     </div>
-    <a asp-action="Search"
-            asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
-    >
-        Sort By Name
-    </a>
-    <a asp-action="Search"
-            asp-route-sortOrder="@(Model.SortViewModel.AuthorSort)">
-        Sort By Author
-    </a>
-    <a asp-action="Search"
-            asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">
-        Sort By Genre
-    </a>
+    </form>
+
     <div class="ContentSection">
 
         <h1>Browse all</h1>
@@ -57,10 +51,49 @@
             }
         
         </div>
+        <!-- Модальное окно 2 -->
+        <form method="get">
+        <div id="myModal3" class="myModal2">
+            <div class="modal-content">
+                <h3>Сортировка</h3>
+                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.NameSort)">
+                    Sort By Name
+                </a>
+                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.AuthorSort)">
+                    Sort By Author
+                </a>
+                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">
+                    Sort By Genre
+                </a>
+                <h3>Фильтр</h3>
+                <ul>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="option" id="option1" onclick="showInput('input1')" />
+                        <span class="checkbox-text">Фильтр по Названию</span>
+                    </label>
+                        <input name="position" value="@Model.FilterViewModel.SelectedInput" class="searchInput" type="text" placeholder="Songs, or podcasts Name">
 
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="option" id="option2" onclick="showInput('input2')" />
+                        <span class="checkbox-text">Фильтр по Автору</span>
+                    </label>
+                        <input name="author" value="@Model.FilterViewModel.SelectedAuthor" class="searchInput" type="text" placeholder="Artists">
+
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="option" id="option3" onclick="showInput('input3')" />
+                        <span class="checkbox-text">Фильтр по Жанру</span>
+                    </label>
+                    <select name="team" asp-items="Model.FilterViewModel.Genres"></select>
+                </ul>
+                <button type="submit">Применить</button>
+            </div>
+        </div>
+        </form>
         @if (Model.PageViewModel.HasPreviousPage)
         {
             <a asp-action="Search"
+               asp-route-position="@(Model.FilterViewModel.SelectedInput)"
+               asp-route-team="@(Model.FilterViewModel.SelectedTeam)"
                asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="glyphicon glyphicon-chevron-left">
                 Назад
             </a>
@@ -68,6 +101,8 @@
         @if (Model.PageViewModel.HasNextPage)
         {
             <a asp-action="Search"
+               asp-route-position="@(Model.FilterViewModel.SelectedInput)"
+               asp-route-team="@(Model.FilterViewModel.SelectedTeam)"
                asp-route-page="@(Model.PageViewModel.PageNumber + 1)" class="glyphicon glyphicon-chevron-right">
                 Вперед
             </a>
@@ -75,3 +110,57 @@
 
     </div>
 </section>
+<script>
+    var openModalBtn3 = document.getElementById('openModalBtn3');
+    var modal3 = document.getElementById('myModal3');
+
+    function openModal(modal, btn) {
+        var rect = btn.getBoundingClientRect();
+        var leftOffset = 150;
+        modal.style.top = rect.bottom + 10 + 'px';
+        modal.style.left = rect.left - leftOffset + 'px';
+        modal.style.display = 'block';
+    }
+
+
+
+    function closeModal(modal) {
+        modal.style.display = 'none';
+    }
+
+    // Открытие модального окна при клике на кнопку 3
+    openModalBtn3.addEventListener('click', function () {
+        openModal(modal3, openModalBtn3);
+    });
+
+
+    // Закрытие модального окна при клике вне его области
+    window.addEventListener('click', function (event) {
+        if (event.target === modal3) {
+            closeModal(modal3);
+        }
+    });
+
+    // Закрытие модального окна при скролле
+    window.addEventListener('scroll', function () {
+        closeModal(modal3);
+    });
+
+    // Закрытие модального окна при клике в другое место
+    document.addEventListener('click', function (event) {
+        if (!openModalBtn3.contains(event.target) && !modal3.contains(event.target)) {
+            closeModal(modal3);
+        }
+    });
+
+function showInput(inputId) {
+    var inputs = document.querySelectorAll('.custom-checkbox input[type="text"]');
+    inputs.forEach(function (input) {
+        if (input.id === inputId) {
+            input.classList.remove("hidden");
+        } else {
+            input.classList.add("hidden");
+        }
+    });
+}
+</script>

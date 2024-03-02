@@ -46,7 +46,7 @@ namespace MusicPortal.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(int page = 1, SortState sortOrder = SortState.NameAsc)
+        public async Task<IActionResult> Search(string position,string author, int page = 1, int team = 0, SortState sortOrder = SortState.NameAsc)
         {
             List<AudioDTO> audioList = await _audioService.GetAll();
             var images = new List<ImageDTO>();
@@ -60,7 +60,7 @@ namespace MusicPortal.Controllers
 
 			var audioIds = audioList.Select(audio => audio.Id);
             var genresByAudios = await _audioGenreService.GetGenreBySongs(audioIds);
-
+            
             int pageSize = 5;
 
             audioList = sortOrder switch
@@ -72,13 +72,32 @@ namespace MusicPortal.Controllers
                 //SortState.GenreDesc => audioList.OrderByDescending(s => s.Position),
                 _ => audioList.OrderBy(s => s.Title).ToList(),
             };
+            if (team != 0)
+            {
+                var audioIdsWithGenre = genresByAudios.Where(kv => kv.Value.Any(genre => genre.Id == team))
+                                                      .Select(kv => kv.Key)
+                                                      .ToList();
+
+                audioList = audioList.Where(p => audioIdsWithGenre.Contains(p.Id)).ToList();
+            }
+            if (!string.IsNullOrEmpty(position))
+            {
+                audioList = audioList.Where(p => p.Title == position).ToList();
+            }
+			// Добавить исполнителя 
+			// Принимаемого в параметрах метода
+			if (!string.IsNullOrEmpty(author))
+			{
+				audioList = audioList.Where(p => p.Author == author).ToList();
+			}
 
 
-            var count = audioList.Count;
+			var count = audioList.Count;
             var items = audioList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
+			var genres = await _genreService.GetAll();
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
-            IndexViewModel viewModel = new IndexViewModel(items, imagePaths, pageViewModel, genresByAudios, new SortViewModel(sortOrder));
+            IndexViewModel viewModel = new IndexViewModel(items, imagePaths, pageViewModel, genresByAudios, new FilterViewModel(genres, team, position, author), new SortViewModel(sortOrder));
             return View(viewModel);
         }
 

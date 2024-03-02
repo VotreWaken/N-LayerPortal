@@ -76,3 +76,20 @@
 .ListeningHistoryItemInformationTitle, .ListeningHistoryItemInformationAuthor, .ListeningHistoryItemInformationGenre {
     width: 300px;
 }
+
+#openModalBtn3 {
+    background: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 40px;
+    margin-right: 10px;
+}
+
+#openModalBtn3 img {
+    width: 40px;
+}

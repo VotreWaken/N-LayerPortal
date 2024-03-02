@@ -1,7 +1,9 @@
 ﻿var openModalBtn1 = document.getElementById('openModalBtn1');
 var openModalBtn2 = document.getElementById('openModalBtn2');
+var openModalBtn3 = document.getElementById('openModalBtn3');
 var modal1 = document.getElementById('myModal1');
 var modal2 = document.getElementById('myModal2');
+var modal3 = document.getElementById('myModal3');
 
 function openModal(modal, btn) {
     var rect = btn.getBoundingClientRect();
@@ -25,11 +27,18 @@ openModalBtn2.addEventListener('click', function () {
     openModal(modal2, openModalBtn2);
 });
 
+// Открытие модального окна при клике на кнопку 3
+openModalBtn3.addEventListener('click', function () {
+    openModal(modal3, openModalBtn3);
+});
+
+
 // Закрытие модального окна при клике вне его области
 window.addEventListener('click', function (event) {
-    if (event.target === modal1 || event.target === modal2) {
+    if (event.target === modal1 || event.target === modal2 || event.target === modal3) {
         closeModal(modal1);
         closeModal(modal2);
+        closeModal(modal3);
     }
 });
 

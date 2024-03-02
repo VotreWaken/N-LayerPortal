@@ -67,3 +67,7 @@
         .myModal2 a:hover {
             background: gray;
         }
+
+#myModal3 {
+    height: 700px;
+}
