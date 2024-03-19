@@ -56,15 +56,15 @@
         <div id="myModal3" class="myModal2">
             <div class="modal-content">
                 <h3>Сортировка</h3>
-                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.NameSort)">
+                    <sort-header asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.NameSort)">
                     Sort By Name
-                </a>
-                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.AuthorSort)">
+                </sort-header>
+                    <sort-header asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.AuthorSort)">
                     Sort By Author
-                </a>
-                <a asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">
+                </sort-header>
+                    <sort-header asp-action="Search" asp-route-sortOrder="@(Model.SortViewModel.GenreSort)">
                     Sort By Genre
-                </a>
+                </sort-header>
                 <h3>Фильтр</h3>
                 <ul>
                     <label class="custom-checkbox">
@@ -110,7 +110,16 @@
 
     </div>
 </section>
+
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-position="@(Model.FilterViewModel.SelectedInput)"
+           page-url-team="@(Model.FilterViewModel.SelectedTeam)"
+           page-url-sortorder="@(Model.SortViewModel.Current)"></page-link>
+
+
 <script>
+
+
     var openModalBtn3 = document.getElementById('openModalBtn3');
     var modal3 = document.getElementById('myModal3');
 

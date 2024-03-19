@@ -55,22 +55,101 @@
                 <td>
                         @Html.DisplayFor(modelItem => item.Login)
                 </td>
-                <td>
+                    <td class="is-auth-cell" data-user-id="@item.Id">
                         @Html.DisplayFor(modelItem => item.IsAuth)
                 </td>
                 <td>
                         @Html.DisplayFor(modelItem => item.IsAdmin)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редактирование</a> |
-                    <a asp-action="Index" asp-route-id="@item.Id">Подробности</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удаление</a> |
+                    <form id="createMessageForm">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Редактирование</a> |
+                    </form>
+                        <a href="javascript:void(0)" class="details-user-btn" data-id="@item.Id">Подробности</a> |
+                        <a href="javascript:void(0)" class="delete-user-btn" data-id="@item.Id">Удаление</a> |
                 </td>
                 <td>
-                    <a asp-action="AuthUser" asp-route-id="@item.Id">Авторизировать</a>
+                        <form>
+                            <a href="javascript:void(0)" class="auth-user-btn" data-id="@item.Id">Авторизировать</a>
+                        </form>
                 </td>
             </tr>
             }
         </tbody>
     </table>
 </section>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+@section scripts {
+<script>
+
+    // AJAX
+
+    $(document).ready(function () {
+
+        // Auth
+        $(".auth-user-btn").click(function () {
+
+            var UserId = $(this).data("id");
+
+            $.ajax({
+                type: "POST",
+                    url: "/Account/AuthUser/" + UserId,
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Auth User");
+                        var userId = data.userId;
+                        $('.is-auth-cell[data-user-id="' + userId + '"]').find('input.check-box').prop('checked', true);
+                },
+                error: function (error) {
+                    console.error("Error creating message:", error);
+                }
+            });
+
+        });
+
+        // Details
+            $(".details-user-btn").click(function () {
+
+                var UserId = $(this).data("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/Index/" + UserId,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Index User");
+                        var userId = data.userId;
+                        $('.is-auth-cell[data-user-id="' + userId + '"]').closest('tr').remove();
+                    },
+                    error: function (error) {
+                        console.error("Error creating message:", error);
+                    }
+                });
+
+            });
+
+        // Delete
+            $(".delete-user-btn").click(function () {
+
+                var UserId = $(this).data("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/Delete/" + UserId,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log("Delete User");
+                        var userId = data.userId;
+                        $('.is-auth-cell[data-user-id="' + userId + '"]').closest('tr').remove();
+                    },
+                    error: function (error) {
+                        console.error("Error creating message:", error);
+                    }
+                });
+
+            });
+    });
+
+</script>
+}

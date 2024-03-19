@@ -186,6 +186,7 @@ namespace MusicPortal.Controllers
 
         public async Task<IActionResult> AuthUser(int id)
         {
+            Console.WriteLine(id);
             var userDTO = await _accountService.GetById(id);
             if (userDTO == null)
             {
@@ -217,8 +218,8 @@ namespace MusicPortal.Controllers
                     model.ImagePaths.Add(user.Id, imagePath);
                 }
             }
-
-            return View("~/Views/Account/ConfirmUsers.cshtml", model);
+            return Json(new { success = true, userId = id });
+            // return View("~/Views/Account/ConfirmUsers.cshtml", model);
         }
 
         // GET: AccountController
@@ -331,7 +332,7 @@ namespace MusicPortal.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _accountService.Delete(id);
-            return RedirectToAction("ConfirmUsers");
+            return Json(new { success = true, userId = id });
         }
 
         // Change Culture
